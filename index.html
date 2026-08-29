@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบวิเคราะห์การเปลี่ยนแปลงสีด้วย AI</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- ส่วนหัวของเว็บไซต์ -->
+    <header>
+        <div class="container">
+            <h2>Banana Film AI Analysis</h2>
+            <p>ระบบวิเคราะห์ค่าสี (RGB/HSV) และบันทึกข้อมูลการทดลองจริง</p>
+        </div>
+    </header>
+
+    <!-- ส่วนเนื้อหาหลัก -->
+    <main class="container">
+        
+        <!-- ส่วนอัปโหลดรูปภาพและเลือกข้อมูล -->
+        <section class="card upload-section">
+            <h3>7. ระบบวิเคราะห์สีภาพถ่าย (AI Color Analyzer)</h3>
+            <div class="control-panel">
+                <div class="input-group">
+                    <label>เลือกสูตรฟิล์มที่ทดสอบ:</label>
+                    <select id="filmFormula">
+                        <option value="formula1">สูตร 1: ไม่เคลือบแผ่นฟิล์ม</option>
+                        <option value="formula2">สูตร 2: กลีเซอรอล + แป้งข้าวโพด + น้ำ + ผงกล้วย 10%</option>
+                        <option value="formula3">สูตร 3: กลีเซอรอล + แป้งข้าวโพด + น้ำ + ผงกล้วย 20%</option>
+                        <option value="formula4">สูตร 4: กลีเซอรอล + แป้งข้าวโพด + น้ำ + ผงกล้วย 30%</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>บันทึกผลของวันที่ (0-7):</label>
+                    <select id="testDay">
+                        <option value="0">Day 0 (วันเริ่มต้น)</option>
+                        <option value="1">Day 1</option>
+                        <option value="2">Day 2</option>
+                        <option value="3">Day 3</option>
+                        <option value="4">Day 4</option>
+                        <option value="5">Day 5</option>
+                        <option value="6">Day 6</option>
+                        <option value="7">Day 7</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>เลือกรูปถ่ายตัวอย่าง:</label>
+                    <label class="btn-upload">
+                        📸 ถ่ายภาพ / เลือกรูปในเครื่อง
+                        <input type="file" id="imageInput" accept="image/*">
+                    </label>
+                </div>
+            </div>
+
+            <!-- ส่วนควบคุมขนาดกรอบ ROI -->
+            <div id="roiControls" class="roi-controls-panel" style="display: none;">
+                <div class="roi-hint">
+                    💡 <strong>วิธีเลือกพื้นที่:</strong> ลากย้ายกรอบสีเหลืองไปตำแหน่งที่ต้องการ หรือปรับขนาดกรอบด้านล่าง
+                </div>
+                <div class="roi-slider-group">
+                    <label>ขนาดกรอบตรวจจับ: <span id="roiSizeVal">80</span>px</label>
+                    <input type="range" id="roiSizeSlider" min="30" max="250" value="80">
+                </div>
+            </div>
+
+            <div class="preview-container">
+                <div class="image-box" id="imageBox">
+                    <img id="previewImage" alt="ตัวอย่างรูปภาพจะแสดงที่นี่">
+                    <div id="roiBox" class="roi-overlay">
+                        <span class="roi-tag">ROI (ลากย้ายได้)</span>
+                    </div>
+                </div>
+                <canvas id="processCanvas" style="display: none;"></canvas>
+            </div>
+
+            <button id="analyzeBtn" class="btn-main" disabled>วิเคราะห์และบันทึกลงกราฟ (Analyze & Record)</button>
+        </section>
+
+        <!-- ส่วนแสดงผลลัพธ์การคำนวณ -->
+        <section id="resultSection" class="card result-section" style="display: none;">
+            <h3>ผลการสกัดค่าสีและการแปลผล</h3>
+            
+            <div class="color-display-row">
+                <div class="color-box-wrap">
+                    <p>สีเฉลี่ยที่ตรวจพบ (ROI):</p>
+                    <div id="detectedColorBox" class="color-swatch"></div>
+                </div>
+                <div class="color-metrics">
+                    <div class="metric-card">
+                        <h4>ค่า RGB เฉลี่ย</h4>
+                        <p id="rgbText">R: - | G: - | B: -</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>ค่า HSV (Hue ที่บันทึก)</h4>
+                        <p id="hsvText">H: -° | S: -% | V: -%</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="evaluation-box">
+                <h4>สถานะการบันทึกข้อมูล:</h4>
+                <p id="evaluationText">-</p>
+            </div>
+        </section>
+
+        <!-- ส่วนกราฟเปรียบเทียบมาตรฐาน -->
+        <section class="card chart-section">
+            <div class="chart-header">
+                <h3>8. กราฟบันทึกผลการทดลองจริง (Day 0 - Day 7)</h3>
+                <div class="chart-actions">
+                    <button id="resetDataBtn" class="btn-action btn-danger">🔄 ล้างข้อมูลทั้งหมด</button>
+                    <button id="downloadChartImgBtn" class="btn-action">💾 บันทึกรูปภาพกราฟ</button>
+                    <button id="downloadChartCsvBtn" class="btn-action">📊 บันทึกไฟล์ CSV</button>
+                </div>
+            </div>
+            <div class="chart-canvas-container">
+                <canvas id="resultsChart"></canvas>
+            </div>
+        </section>
+
+        <!-- ส่วนสรุปผลการประเมินสูตรที่ดีที่สุด -->
+        <section id="summarySection" class="card summary-section">
+            <h3>🏆 สรุปผลการประเมินประสิทธิภาพฟิล์ม</h3>
+            <div id="summaryContent">
+                <p class="summary-placeholder">กำลังรอข้อมูลบันทึกผลการทดลองจนถึง Day 7...</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ส่วนท้ายของเว็บไซต์ -->
+    <footer>
+        <p>&copy; 2026 โครงการพัฒนาฟิล์มเคลือบอาหารจากวัสดุเหลือใช้ทางการเกษตร</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
