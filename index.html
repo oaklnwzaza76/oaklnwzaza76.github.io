@@ -6,16 +6,12 @@
     <title>Banana Film AI Innovation - ระบบวิเคราะห์ฟิล์มเคลือบอาหารอัจฉริยะ</title>
     <link rel="stylesheet" href="style.css">
     
-    <!-- ฟอนต์ภาษาไทย Prompt -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Chart.js สำหรับแสดงกราฟ -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Canvas Confetti สำหรับเอฟเฟกต์พลุฉลองตอนสรุปผล Day 7 -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- AOS Library สำหรับ Animate เลื่อนหน้าจอ -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </head>
@@ -156,11 +152,11 @@
             </div>
         </section>
 
-        <!-- ส่วนกราฟเปรียบเทียบมาตรฐาน -->
+        <!-- ส่วนกราฟเปรียบเทียบมาตรฐานและตารางบันทึกผล -->
         <section class="card glass-card chart-section" data-aos="fade-up" data-aos-duration="900">
             <div class="chart-header">
                 <div>
-                    <h3>กราฟบันทึกผลการทดลองจริง (Day 0 - Day 7)</h3>
+                    <h3>กราฟและตารางบันทึกผลการทดลองจริง (Day 0 - Day 7)</h3>
                     <p class="card-desc">เปรียบเทียบการเปลี่ยนแปลงค่า Hue ตลอดอายุ 7 วัน</p>
                 </div>
                 <div class="chart-actions">
@@ -190,8 +186,79 @@
                 </div>
             </div>
 
-            <div class="chart-canvas-container">
-                <canvas id="resultsChart"></canvas>
+            <!-- กล่องกราฟที่เลื่อนซ้ายขวาได้เพื่อป้องกันตัวอักษรทับกันบนมือถือ -->
+            <div class="chart-scroll-wrapper">
+                <div class="chart-canvas-container">
+                    <canvas id="resultsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- ส่วนตารางแสดงค่า Hue รายวัน -->
+            <div class="daily-table-container">
+                <h4 class="table-section-title">📋 ตารางบันทึกค่า Hue รายวัน (องศา)</h4>
+                <div class="table-responsive-wrapper">
+                    <table class="data-record-table">
+                        <thead>
+                            <tr>
+                                <th>สูตรการทดลอง</th>
+                                <th>Day 0</th>
+                                <th>Day 1</th>
+                                <th>Day 2</th>
+                                <th>Day 3</th>
+                                <th>Day 4</th>
+                                <th>Day 5</th>
+                                <th>Day 6</th>
+                                <th>Day 7</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dailyDataTableBody">
+                            <tr>
+                                <td><span class="table-dot" style="background:#e53935;"></span> สูตร 1: ไม่เคลือบ</td>
+                                <td id="cell-formula1-0">-</td>
+                                <td id="cell-formula1-1">-</td>
+                                <td id="cell-formula1-2">-</td>
+                                <td id="cell-formula1-3">-</td>
+                                <td id="cell-formula1-4">-</td>
+                                <td id="cell-formula1-5">-</td>
+                                <td id="cell-formula1-6">-</td>
+                                <td id="cell-formula1-7">-</td>
+                            </tr>
+                            <tr>
+                                <td><span class="table-dot" style="background:#fb8c00;"></span> สูตร 2: ผงกล้วย 10%</td>
+                                <td id="cell-formula2-0">-</td>
+                                <td id="cell-formula2-1">-</td>
+                                <td id="cell-formula2-2">-</td>
+                                <td id="cell-formula2-3">-</td>
+                                <td id="cell-formula2-4">-</td>
+                                <td id="cell-formula2-5">-</td>
+                                <td id="cell-formula2-6">-</td>
+                                <td id="cell-formula2-7">-</td>
+                            </tr>
+                            <tr>
+                                <td><span class="table-dot" style="background:#43a047;"></span> สูตร 3: ผงกล้วย 20%</td>
+                                <td id="cell-formula3-0">-</td>
+                                <td id="cell-formula3-1">-</td>
+                                <td id="cell-formula3-2">-</td>
+                                <td id="cell-formula3-3">-</td>
+                                <td id="cell-formula3-4">-</td>
+                                <td id="cell-formula3-5">-</td>
+                                <td id="cell-formula3-6">-</td>
+                                <td id="cell-formula3-7">-</td>
+                            </tr>
+                            <tr>
+                                <td><span class="table-dot" style="background:#1e88e5;"></span> สูตร 4: ผงกล้วย 30%</td>
+                                <td id="cell-formula4-0">-</td>
+                                <td id="cell-formula4-1">-</td>
+                                <td id="cell-formula4-2">-</td>
+                                <td id="cell-formula4-3">-</td>
+                                <td id="cell-formula4-4">-</td>
+                                <td id="cell-formula4-5">-</td>
+                                <td id="cell-formula4-6">-</td>
+                                <td id="cell-formula4-7">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
 

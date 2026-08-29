@@ -129,6 +129,24 @@ function updateRoiPosition() {
     roiBox.style.height = `${roiSize}px`;
 }
 
+function updateDailyTable() {
+    chartDataSets.forEach(ds => {
+        for (let day = 0; day <= 7; day++) {
+            const cell = document.getElementById(`cell-${ds.key}-${day}`);
+            if (cell) {
+                const val = ds.data[day];
+                if (val !== null && val !== undefined) {
+                    cell.textContent = `${val}°`;
+                    cell.classList.add('filled-val');
+                } else {
+                    cell.textContent = '-';
+                    cell.classList.remove('filled-val');
+                }
+            }
+        }
+    });
+}
+
 imageInput.addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
@@ -332,6 +350,7 @@ analyzeBtn.addEventListener('click', function() {
     if (targetDataset) {
         targetDataset.data[selectedDay] = hsv.h;
         chartInstance.update();
+        updateDailyTable();
         checkAndGenerateSummary();
     }
 
@@ -359,9 +378,9 @@ document.addEventListener("DOMContentLoaded", function() {
             layout: {
                 padding: {
                     top: 10,
-                    bottom: 5,
-                    left: 5,
-                    right: 5
+                    bottom: 15,
+                    left: 10,
+                    right: 15
                 }
             },
             plugins: {
@@ -446,6 +465,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 ds.data = [null, null, null, null, null, null, null, null];
             });
             chartInstance.update();
+            updateDailyTable();
             resultSection.style.display = 'none';
             checkAndGenerateSummary();
         }
@@ -471,6 +491,7 @@ document.addEventListener("DOMContentLoaded", function() {
     downloadChartCsvBtn.addEventListener('click', function() {
         const days = ['Day 0', 'Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'];
         let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+        
         csvContent += "สูตร," + days.join(",") + "\n";
 
         chartDataSets.forEach(dataset => {
