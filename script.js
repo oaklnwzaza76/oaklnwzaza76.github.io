@@ -1,4 +1,4 @@
-// เริ่มต้นระบบ Animate On Scroll (AOS)
+// ส่วนควบคุม Animate On Scroll
 document.addEventListener("DOMContentLoaded", function() {
     AOS.init({
         once: true,
@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-// ส่วนจัดการ DOM Elements
+// ส่วนระบุองค์ประกอบ DOM
 const imageInput = document.getElementById('imageInput');
 const previewImage = document.getElementById('previewImage');
 const imageBox = document.getElementById('imageBox');
@@ -42,7 +42,7 @@ let isDragging = false;
 let dragStartX, dragStartY;
 let initialRoiX, initialRoiY;
 
-// ข้อมูลชุดผลการทดลอง 4 สูตร
+// ชุดข้อมูลเริ่มต้นของสูตรการทดลองทั้ง 4 สูตร
 const chartDataSets = [
     {
         key: 'formula1',
@@ -98,6 +98,7 @@ const chartDataSets = [
     }
 ];
 
+// ส่วนการแปลงค่าสี RGB เป็น HSV
 function rgbToHsv(r, g, b) {
     r /= 255;
     g /= 255;
@@ -129,6 +130,7 @@ function rgbToHsv(r, g, b) {
     return { h, s, v };
 }
 
+// ส่วนคำนวณตำแหน่งแสดงผลของกรอบ ROI
 function updateRoiPosition() {
     const boxWidth = previewImage.clientWidth;
     const boxHeight = previewImage.clientHeight;
@@ -144,6 +146,7 @@ function updateRoiPosition() {
     roiBox.style.height = `${roiSize}px`;
 }
 
+// ส่วนจัดการเมื่อเลือกไฟล์รูปภาพ
 imageInput.addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
@@ -173,6 +176,7 @@ imageInput.addEventListener('change', function(e) {
     }
 });
 
+// ส่วนจัดการอีเวนต์ลากย้ายกรอบ ROI
 roiBox.addEventListener('mousedown', function(e) {
     isDragging = true;
     dragStartX = e.clientX;
@@ -218,13 +222,14 @@ window.addEventListener('touchend', function() {
     isDragging = false;
 });
 
+// ส่วนปรับขนาดกรอบ ROI ผ่านแถบเลื่อน
 roiSizeSlider.addEventListener('input', function() {
     roiSize = parseInt(this.value, 10);
     roiSizeVal.textContent = roiSize;
     updateRoiPosition();
 });
 
-// ฟังก์ชันยิงพลุสีทอง Golden Confetti
+// ส่วนยิงเอฟเฟกต์พลุเฉลิมฉลอง
 function triggerGoldenConfetti() {
     confetti({
         particleCount: 100,
@@ -234,6 +239,7 @@ function triggerGoldenConfetti() {
     });
 }
 
+// ส่วนประมวลผลสรุปประสิทธิภาพฟิล์ม
 function checkAndGenerateSummary() {
     const completedFormulas = chartDataSets.filter(ds => ds.data[7] !== null && ds.data[0] !== null);
 
@@ -254,7 +260,6 @@ function checkAndGenerateSummary() {
 
     const best = ranked[0];
 
-    // ยิงพลุฉลอง
     triggerGoldenConfetti();
 
     let summaryHtml = `
@@ -303,6 +308,7 @@ function checkAndGenerateSummary() {
     summaryContent.innerHTML = summaryHtml;
 }
 
+// ส่วนประมวลผลสีและบันทึกค่า
 analyzeBtn.addEventListener('click', function() {
     if (!currentImage) return;
 
@@ -453,6 +459,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    // ส่วนล้างข้อมูลการทดลอง
     resetDataBtn.addEventListener('click', function() {
         if (confirm('คุณต้องการล้างข้อมูลการทดลองทั้งหมดใช่หรือไม่?')) {
             chartDataSets.forEach(ds => {
@@ -464,6 +471,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    // ส่วนดาวน์โหลดรูปภาพกราฟ
     downloadChartImgBtn.addEventListener('click', function() {
         const chartCanvas = document.getElementById('resultsChart');
         
@@ -482,6 +490,7 @@ document.addEventListener("DOMContentLoaded", function() {
         link.click();
     });
 
+    // ส่วนส่งออกข้อมูล CSV
     downloadChartCsvBtn.addEventListener('click', function() {
         const days = ['Day 0', 'Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'];
         let csvContent = "data:text/csv;charset=utf-8,\uFEFF";

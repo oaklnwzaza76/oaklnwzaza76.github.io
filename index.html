@@ -21,7 +21,7 @@
 </head>
 <body>
 
-    <!-- อนุภาคกล้วยและแสงนีออนลอยพื้นหลัง (Background Particles) -->
+    <!-- ส่วนตกแต่งพื้นหลัง -->
     <div class="bg-particles" id="particlesContainer">
         <span class="particle p1">🍌</span>
         <span class="particle p2">✨</span>
@@ -51,7 +51,7 @@
             <div class="card-title-row">
                 <div class="icon-badge">🍌</div>
                 <div>
-                    <h3>ระบบวิเคราะห์สีภาพถ่าย (AI Color Analyzer)</h3>
+                    <h3>7. ระบบวิเคราะห์สีภาพถ่าย (AI Color Analyzer)</h3>
                     <p class="card-desc">สกัดค่าสี RGB/HSV ผ่านกรอบสแกนอัจฉริยะและคำนวณประสิทธิภาพฟิล์ม</p>
                 </div>
             </div>
@@ -88,14 +88,16 @@
                 </div>
             </div>
 
-            <!-- ส่วนควบคุมขนาดกรอบ ROI -->
+            <!-- ส่วนแถบปรับแต่งกรอบ ROI -->
             <div id="roiControls" class="roi-controls-panel" style="display: none;">
                 <div class="roi-hint">
                     💡 <strong>วิธีเลือกพื้นที่:</strong> ลากย้ายกรอบสีทองนีออนไปตำแหน่งที่ต้องการ หรือปรับขนาดกรอบด้านล่าง
                 </div>
                 <div class="roi-slider-group">
-                    <label>ขนาดกรอบสแกน: <span id="roiSizeVal">80</span>px</label>
-                    <input type="range" id="roiSizeSlider" min="30" max="250" value="80">
+                    <label for="roiSizeSlider">ขนาดกรอบสแกน: <span id="roiSizeVal">80</span>px</label>
+                    <div class="range-wrapper">
+                        <input type="range" id="roiSizeSlider" min="30" max="250" value="80">
+                    </div>
                 </div>
             </div>
 
@@ -160,7 +162,7 @@
                 <div class="card-title-row" style="margin-bottom: 0;">
                     <div class="icon-badge">📈</div>
                     <div>
-                        <h3>กราฟบันทึกผลการทดลองจริง (Day 0 - Day 7)</h3>
+                        <h3>8. กราฟบันทึกผลการทดลองจริง (Day 0 - Day 7)</h3>
                         <p class="card-desc">เปรียบเทียบการเปลี่ยนแปลงค่า Hue ตลอดอายุ 7 วัน</p>
                     </div>
                 </div>
