@@ -6,7 +6,7 @@
     <title>Banana Film AI Innovation - ระบบวิเคราะห์ฟิล์มเคลือบอาหารอัจฉริยะ</title>
     <link rel="stylesheet" href="style.css">
     
-    <!-- ฟอนต์ภาษาไทย Prompt ดูทันสมัยระดับพรีเมียม -->
+    <!-- ฟอนต์ภาษาไทย Prompt -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -51,7 +51,7 @@
             <div class="card-title-row">
                 <div class="icon-badge">🍌</div>
                 <div>
-                    <h3>7. ระบบวิเคราะห์สีภาพถ่าย (AI Color Analyzer)</h3>
+                    <h3>ระบบวิเคราะห์สีภาพถ่าย (AI Color Analyzer)</h3>
                     <p class="card-desc">สกัดค่าสี RGB/HSV ผ่านกรอบสแกนอัจฉริยะและคำนวณประสิทธิภาพฟิล์ม</p>
                 </div>
             </div>
@@ -159,19 +159,37 @@
         <!-- ส่วนกราฟเปรียบเทียบมาตรฐาน -->
         <section class="card glass-card chart-section" data-aos="fade-up" data-aos-duration="900">
             <div class="chart-header">
-                <div class="card-title-row" style="margin-bottom: 0;">
-                    <div class="icon-badge">📈</div>
-                    <div>
-                        <h3>8. กราฟบันทึกผลการทดลองจริง (Day 0 - Day 7)</h3>
-                        <p class="card-desc">เปรียบเทียบการเปลี่ยนแปลงค่า Hue ตลอดอายุ 7 วัน</p>
-                    </div>
+                <div>
+                    <h3>กราฟบันทึกผลการทดลองจริง (Day 0 - Day 7)</h3>
+                    <p class="card-desc">เปรียบเทียบการเปลี่ยนแปลงค่า Hue ตลอดอายุ 7 วัน</p>
                 </div>
                 <div class="chart-actions">
-                    <button id="resetDataBtn" class="btn-action btn-danger">🔄 ล้างข้อมูลทั้งหมด</button>
-                    <button id="downloadChartImgBtn" class="btn-action">💾 บันทึกรูปภาพกราฟ</button>
-                    <button id="downloadChartCsvBtn" class="btn-action">📊 บันทึกไฟล์ CSV</button>
+                    <button id="resetDataBtn" class="btn-action btn-danger">🔄 ล้างข้อมูล</button>
+                    <button id="downloadChartImgBtn" class="btn-action">💾 บันทึกรูปภาพ</button>
+                    <button id="downloadChartCsvBtn" class="btn-action">📊 บันทึก CSV</button>
                 </div>
             </div>
+
+            <!-- แถบระบุชื่อสูตรแบบ Custom Legend -->
+            <div class="custom-legend" id="customLegend">
+                <div class="legend-item" data-index="0">
+                    <span class="legend-dot" style="background-color: #e53935;"></span>
+                    <span class="legend-text">สูตร 1: ไม่เคลือบ</span>
+                </div>
+                <div class="legend-item" data-index="1">
+                    <span class="legend-dot" style="background-color: #fb8c00;"></span>
+                    <span class="legend-text">สูตร 2: ผงกล้วย 10%</span>
+                </div>
+                <div class="legend-item" data-index="2">
+                    <span class="legend-dot" style="background-color: #43a047;"></span>
+                    <span class="legend-text">สูตร 3: ผงกล้วย 20%</span>
+                </div>
+                <div class="legend-item" data-index="3">
+                    <span class="legend-dot" style="background-color: #1e88e5;"></span>
+                    <span class="legend-text">สูตร 4: ผงกล้วย 30%</span>
+                </div>
+            </div>
+
             <div class="chart-canvas-container">
                 <canvas id="resultsChart"></canvas>
             </div>

@@ -1,15 +1,15 @@
-// ส่วนควบคุม Animate On Scroll
+// เริ่มต้นใช้งาน AOS Animation
 document.addEventListener("DOMContentLoaded", function() {
-    AOS.init({
-        once: true,
-        duration: 800
-    });
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            once: true
+        });
+    }
 });
 
-// ส่วนระบุองค์ประกอบ DOM
+// ส่วนจัดการ DOM Elements
 const imageInput = document.getElementById('imageInput');
 const previewImage = document.getElementById('previewImage');
-const imageBox = document.getElementById('imageBox');
 const emptyStateText = document.getElementById('emptyStateText');
 const roiBox = document.getElementById('roiBox');
 const roiControls = document.getElementById('roiControls');
@@ -42,63 +42,50 @@ let isDragging = false;
 let dragStartX, dragStartY;
 let initialRoiX, initialRoiY;
 
-// ชุดข้อมูลเริ่มต้นของสูตรการทดลองทั้ง 4 สูตร
+// ชุดข้อมูลการทดลอง 4 สูตร
 const chartDataSets = [
     {
         key: 'formula1',
         label: 'สูตร 1: ไม่เคลือบ',
         desc: 'กลุ่มควบคุมที่ไม่ได้รับการเคลือบฟิล์มป้องกัน',
         data: [null, null, null, null, null, null, null, null],
-        borderColor: '#e03131',
-        backgroundColor: '#e03131',
-        borderWidth: 3,
-        pointBackgroundColor: '#e03131',
-        pointRadius: 5,
-        pointHoverRadius: 8,
-        tension: 0.3
+        borderColor: '#e53935',
+        backgroundColor: '#e53935',
+        tension: 0.2,
+        pointRadius: 5
     },
     {
         key: 'formula2',
         label: 'สูตร 2: ผงกล้วย 10%',
         desc: 'ฟิล์มเคลือบชีวภาพเสริมผงกล้วย 10%',
         data: [null, null, null, null, null, null, null, null],
-        borderColor: '#f76707',
-        backgroundColor: '#f76707',
-        borderWidth: 3,
-        pointBackgroundColor: '#f76707',
-        pointRadius: 5,
-        pointHoverRadius: 8,
-        tension: 0.3
+        borderColor: '#fb8c00',
+        backgroundColor: '#fb8c00',
+        tension: 0.2,
+        pointRadius: 5
     },
     {
         key: 'formula3',
         label: 'สูตร 3: ผงกล้วย 20%',
         desc: 'ฟิล์มเคลือบชีวภาพเสริมผงกล้วย 20%',
         data: [null, null, null, null, null, null, null, null],
-        borderColor: '#2f9e44',
-        backgroundColor: '#2f9e44',
-        borderWidth: 3,
-        pointBackgroundColor: '#2f9e44',
-        pointRadius: 5,
-        pointHoverRadius: 8,
-        tension: 0.3
+        borderColor: '#43a047',
+        backgroundColor: '#43a047',
+        tension: 0.2,
+        pointRadius: 5
     },
     {
         key: 'formula4',
         label: 'สูตร 4: ผงกล้วย 30%',
         desc: 'ฟิล์มเคลือบชีวภาพเสริมผงกล้วย 30%',
         data: [null, null, null, null, null, null, null, null],
-        borderColor: '#1971c2',
-        backgroundColor: '#1971c2',
-        borderWidth: 3,
-        pointBackgroundColor: '#1971c2',
-        pointRadius: 5,
-        pointHoverRadius: 8,
-        tension: 0.3
+        borderColor: '#1e88e5',
+        backgroundColor: '#1e88e5',
+        tension: 0.2,
+        pointRadius: 5
     }
 ];
 
-// ส่วนการแปลงค่าสี RGB เป็น HSV
 function rgbToHsv(r, g, b) {
     r /= 255;
     g /= 255;
@@ -130,7 +117,6 @@ function rgbToHsv(r, g, b) {
     return { h, s, v };
 }
 
-// ส่วนคำนวณตำแหน่งแสดงผลของกรอบ ROI
 function updateRoiPosition() {
     const boxWidth = previewImage.clientWidth;
     const boxHeight = previewImage.clientHeight;
@@ -146,7 +132,6 @@ function updateRoiPosition() {
     roiBox.style.height = `${roiSize}px`;
 }
 
-// ส่วนจัดการเมื่อเลือกไฟล์รูปภาพ
 imageInput.addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
@@ -176,7 +161,6 @@ imageInput.addEventListener('change', function(e) {
     }
 });
 
-// ส่วนจัดการอีเวนต์ลากย้ายกรอบ ROI
 roiBox.addEventListener('mousedown', function(e) {
     isDragging = true;
     dragStartX = e.clientX;
@@ -222,30 +206,27 @@ window.addEventListener('touchend', function() {
     isDragging = false;
 });
 
-// ส่วนปรับขนาดกรอบ ROI ผ่านแถบเลื่อน
 roiSizeSlider.addEventListener('input', function() {
     roiSize = parseInt(this.value, 10);
     roiSizeVal.textContent = roiSize;
     updateRoiPosition();
 });
 
-// ส่วนยิงเอฟเฟกต์พลุเฉลิมฉลอง
-function triggerGoldenConfetti() {
-    confetti({
-        particleCount: 100,
-        spread: 80,
-        origin: { y: 0.6 },
-        colors: ['#ffd43b', '#fab005', '#f59f00', '#ffffff', '#e67700']
-    });
-}
-
-// ส่วนประมวลผลสรุปประสิทธิภาพฟิล์ม
 function checkAndGenerateSummary() {
     const completedFormulas = chartDataSets.filter(ds => ds.data[7] !== null && ds.data[0] !== null);
 
     if (completedFormulas.length === 0) {
         summaryContent.innerHTML = '<p class="summary-placeholder">กำลังรอข้อมูลบันทึกผลการทดลองจนถึง Day 7...</p>';
         return;
+    }
+
+    // ยิง Confetti เอฟเฟกต์ฉลองเมื่อได้สูตรที่บันทึกถึง Day 7
+    if (typeof confetti === 'function') {
+        confetti({
+            particleCount: 80,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
     }
 
     const ranked = completedFormulas.map(ds => {
@@ -260,18 +241,16 @@ function checkAndGenerateSummary() {
 
     const best = ranked[0];
 
-    triggerGoldenConfetti();
-
     let summaryHtml = `
-        <div class="best-badge">🏆 สูตรที่มีประสิทธิภาพดีที่สุด</div>
+        <div class="best-badge">⭐ สูตรที่มีประสิทธิภาพดีที่สุด</div>
         <div class="best-card">
             <h4>${best.label}</h4>
-            <p><strong>คุณสมบัติเด่น:</strong> ${best.desc}</p>
+            <p><strong>คุณสมบัติ:</strong> ${best.desc}</p>
             <p><strong>ผลการวิเคราะห์สี:</strong> ค่า Hue ในวันเริ่มต้น (Day 0) อยู่ที่ <strong>${best.data[0]}°</strong> และในวันที่ 7 (Day 7) คงสภาพอยู่ที่ <strong>${best.finalHue}°</strong> (เกิดการเปลี่ยนแปลงสีเพียง <strong>${best.diff}°</strong>)</p>
             <p><strong>สรุปผลทางวิทยาศาสตร์:</strong> แผ่นฟิล์มสูตรนี้สามารถป้องกันการเกิดปฏิกิริยาออกซิเดชัน (Oxidation) และชะลอการสลายตัวของสารแอนโทไซยานิน/รงควัตถุในน้ำผลไม้ได้ยาวนานที่สุดในระยะเวลา 7 วัน</p>
         </div>
         
-        <h4 style="margin-top: 22px; color: #5c4700;">ตารางเปรียบเทียบการเปลี่ยนแปลงสี (Day 0 - Day 7):</h4>
+        <h4 style="margin-top: 20px; color: #4a3b10;">ตารางเปรียบเทียบการเปลี่ยนแปลงสี (Day 0 - Day 7):</h4>
         <table class="formula-rank-list">
             <thead>
                 <tr>
@@ -287,7 +266,7 @@ function checkAndGenerateSummary() {
     `;
 
     ranked.forEach((item, index) => {
-        const status = index === 0 ? '🌟 ดีที่สุด (Best)' : (item.diff <= 25 ? '✅ ดี' : '⚠️ ปานกลาง / ต่ำ');
+        const status = index === 0 ? 'ดีที่สุด (Best)' : (item.diff <= 25 ? 'ดี' : 'ปานกลาง / ต่ำ');
         summaryHtml += `
             <tr>
                 <td><strong>#${index + 1}</strong></td>
@@ -308,7 +287,6 @@ function checkAndGenerateSummary() {
     summaryContent.innerHTML = summaryHtml;
 }
 
-// ส่วนประมวลผลสีและบันทึกค่า
 analyzeBtn.addEventListener('click', function() {
     if (!currentImage) return;
 
@@ -346,7 +324,6 @@ analyzeBtn.addEventListener('click', function() {
     const hsv = rgbToHsv(avgR, avgG, avgB);
 
     detectedColorBox.style.backgroundColor = `rgb(${avgR}, ${avgG}, ${avgB})`;
-    detectedColorBox.style.boxShadow = `0 4px 18px rgba(${avgR}, ${avgG}, ${avgB}, 0.6)`;
     rgbText.textContent = `R: ${avgR} | G: ${avgG} | B: ${avgB}`;
     hsvText.textContent = `H: ${hsv.h}° | S: ${hsv.s}% | V: ${hsv.v}%`;
 
@@ -362,7 +339,6 @@ analyzeBtn.addEventListener('click', function() {
 
     evaluationText.textContent = `บันทึกค่า Hue = ${hsv.h}° จากพื้นที่ที่เลือก สำหรับ [${targetDataset.label}] ใน [Day ${selectedDay}] สำเร็จแล้ว`;
     resultSection.style.display = 'block';
-    resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
 
 // ส่วนสร้างกราฟ Chart.js
@@ -379,38 +355,19 @@ document.addEventListener("DOMContentLoaded", function() {
             responsive: true,
             maintainAspectRatio: false,
             spanGaps: true,
-            animation: {
-                duration: 900,
-                easing: 'easeOutQuart'
-            },
             layout: {
                 padding: {
                     top: 10,
-                    bottom: 10
+                    bottom: 5,
+                    left: 5,
+                    right: 5
                 }
             },
             plugins: {
                 legend: {
-                    position: 'top',
-                    labels: {
-                        usePointStyle: true,
-                        pointStyle: 'circle',
-                        boxWidth: 9,
-                        boxHeight: 9,
-                        padding: 14,
-                        color: '#493800',
-                        font: {
-                            family: "'Prompt', sans-serif",
-                            size: 11,
-                            weight: '600'
-                        }
-                    }
+                    display: false
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(56, 40, 0, 0.9)',
-                    titleFont: { family: "'Prompt', sans-serif", weight: 'bold' },
-                    bodyFont: { family: "'Prompt', sans-serif" },
-                    padding: 10,
                     callbacks: {
                         label: function(context) {
                             return `${context.dataset.label}: ${context.parsed.y !== null ? context.parsed.y + '°' : 'ยังไม่มีข้อมูล'}`;
@@ -424,42 +381,65 @@ document.addEventListener("DOMContentLoaded", function() {
                     max: 360,
                     ticks: {
                         stepSize: 60,
-                        color: '#796213',
-                        font: { family: "'Prompt', sans-serif", size: 10 }
+                        font: {
+                            size: 11,
+                            family: "'Prompt', sans-serif"
+                        },
+                        color: '#6b550e'
                     },
                     title: {
                         display: true,
                         text: 'ค่า Hue (0 - 360°)',
-                        color: '#d9480f',
-                        font: { family: "'Prompt', sans-serif", weight: 'bold', size: 11 }
+                        font: {
+                            weight: 'bold',
+                            size: 12,
+                            family: "'Prompt', sans-serif"
+                        },
+                        color: '#4a3b10'
                     },
                     grid: {
-                        color: 'rgba(245, 159, 0, 0.1)'
+                        color: 'rgba(245, 159, 0, 0.15)'
                     }
                 },
                 x: {
                     ticks: {
-                        color: '#796213',
-                        font: { family: "'Prompt', sans-serif", size: 10 },
-                        maxRotation: 45,
-                        minRotation: 0,
+                        font: {
+                            size: 11,
+                            family: "'Prompt', sans-serif"
+                        },
+                        color: '#6b550e',
+                        maxRotation: 0,
                         autoSkip: false
                     },
                     title: {
                         display: true,
                         text: 'วันที่บันทึกผลการทดลอง',
-                        color: '#d9480f',
-                        font: { family: "'Prompt', sans-serif", weight: 'bold', size: 11 }
+                        font: {
+                            weight: 'bold',
+                            size: 12,
+                            family: "'Prompt', sans-serif"
+                        },
+                        color: '#4a3b10'
                     },
                     grid: {
-                        color: 'rgba(245, 159, 0, 0.1)'
+                        color: 'rgba(245, 159, 0, 0.15)'
                     }
                 }
             }
         }
     });
 
-    // ส่วนล้างข้อมูลการทดลอง
+    // เชื่อมปุ่ม Custom Legend
+    document.querySelectorAll('.legend-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const index = parseInt(this.getAttribute('data-index'), 10);
+            const isVisible = chartInstance.isDatasetVisible(index);
+            chartInstance.setDatasetVisibility(index, !isVisible);
+            chartInstance.update();
+            this.classList.toggle('hidden-dataset', isVisible);
+        });
+    });
+
     resetDataBtn.addEventListener('click', function() {
         if (confirm('คุณต้องการล้างข้อมูลการทดลองทั้งหมดใช่หรือไม่?')) {
             chartDataSets.forEach(ds => {
@@ -471,10 +451,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // ส่วนดาวน์โหลดรูปภาพกราฟ
     downloadChartImgBtn.addEventListener('click', function() {
         const chartCanvas = document.getElementById('resultsChart');
-        
         const tempCanvas = document.createElement('canvas');
         tempCanvas.width = chartCanvas.width;
         tempCanvas.height = chartCanvas.height;
@@ -490,11 +468,9 @@ document.addEventListener("DOMContentLoaded", function() {
         link.click();
     });
 
-    // ส่วนส่งออกข้อมูล CSV
     downloadChartCsvBtn.addEventListener('click', function() {
         const days = ['Day 0', 'Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'];
         let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
-        
         csvContent += "สูตร," + days.join(",") + "\n";
 
         chartDataSets.forEach(dataset => {
