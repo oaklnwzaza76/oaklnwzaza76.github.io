@@ -1,4 +1,3 @@
-// เริ่มต้นใช้งาน AOS Animation
 document.addEventListener("DOMContentLoaded", function() {
     if (typeof AOS !== 'undefined') {
         AOS.init({
@@ -7,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-// ส่วนจัดการ DOM Elements
 const imageInput = document.getElementById('imageInput');
 const previewImage = document.getElementById('previewImage');
 const emptyStateText = document.getElementById('emptyStateText');
@@ -42,7 +40,6 @@ let isDragging = false;
 let dragStartX, dragStartY;
 let initialRoiX, initialRoiY;
 
-// ชุดข้อมูลการทดลอง 4 สูตร
 const chartDataSets = [
     {
         key: 'formula1',
@@ -220,7 +217,6 @@ function checkAndGenerateSummary() {
         return;
     }
 
-    // ยิง Confetti เอฟเฟกต์ฉลองเมื่อได้สูตรที่บันทึกถึง Day 7
     if (typeof confetti === 'function') {
         confetti({
             particleCount: 80,
@@ -251,18 +247,19 @@ function checkAndGenerateSummary() {
         </div>
         
         <h4 style="margin-top: 20px; color: #4a3b10;">ตารางเปรียบเทียบการเปลี่ยนแปลงสี (Day 0 - Day 7):</h4>
-        <table class="formula-rank-list">
-            <thead>
-                <tr>
-                    <th>อันดับ</th>
-                    <th>สูตรการทดลอง</th>
-                    <th>Day 0 (Hue)</th>
-                    <th>Day 7 (Hue)</th>
-                    <th>ผลต่าง (ΔHue)</th>
-                    <th>การประเมิน</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="table-responsive-wrapper">
+            <table class="formula-rank-list">
+                <thead>
+                    <tr>
+                        <th>อันดับ</th>
+                        <th>สูตรการทดลอง</th>
+                        <th>Day 0 (Hue)</th>
+                        <th>Day 7 (Hue)</th>
+                        <th>ผลต่าง (ΔHue)</th>
+                        <th>การประเมิน</th>
+                    </tr>
+                </thead>
+                <tbody>
     `;
 
     ranked.forEach((item, index) => {
@@ -280,8 +277,9 @@ function checkAndGenerateSummary() {
     });
 
     summaryHtml += `
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     `;
 
     summaryContent.innerHTML = summaryHtml;
@@ -339,9 +337,12 @@ analyzeBtn.addEventListener('click', function() {
 
     evaluationText.textContent = `บันทึกค่า Hue = ${hsv.h}° จากพื้นที่ที่เลือก สำหรับ [${targetDataset.label}] ใน [Day ${selectedDay}] สำเร็จแล้ว`;
     resultSection.style.display = 'block';
+
+    setTimeout(() => {
+        resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
 });
 
-// ส่วนสร้างกราฟ Chart.js
 document.addEventListener("DOMContentLoaded", function() {
     const ctx = document.getElementById('resultsChart').getContext('2d');
     
@@ -429,7 +430,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // เชื่อมปุ่ม Custom Legend
     document.querySelectorAll('.legend-item').forEach(item => {
         item.addEventListener('click', function() {
             const index = parseInt(this.getAttribute('data-index'), 10);
