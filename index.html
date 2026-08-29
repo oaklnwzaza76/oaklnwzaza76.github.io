@@ -3,34 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบวิเคราะห์การเปลี่ยนแปลงสีด้วย AI - Banana Film Innovation</title>
-    <!-- Google Fonts -->
+    <title>Banana Film AI Innovation - ระบบวิเคราะห์ฟิล์มเคลือบอาหารอัจฉริยะ</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- ฟอนต์ภาษาไทย Prompt ดูทันสมัยระดับพรีเมียม -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js สำหรับแสดงกราฟ -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Canvas Confetti สำหรับเอฟเฟกต์พลุฉลองตอนสรุปผล Day 7 -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- AOS Library สำหรับ Animate เลื่อนหน้าจอ -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </head>
 <body>
 
+    <!-- อนุภาคกล้วยและแสงนีออนลอยพื้นหลัง (Background Particles) -->
+    <div class="bg-particles" id="particlesContainer">
+        <span class="particle p1">🍌</span>
+        <span class="particle p2">✨</span>
+        <span class="particle p3">🍌</span>
+        <span class="particle p4">⚡</span>
+        <span class="particle p5">🍌</span>
+    </div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
     <!-- ส่วนหัวของเว็บไซต์ -->
-    <header>
-        <div class="container header-container">
-            <div class="header-icon-wrap">
-                <!-- ไอคอนกล้วย SVG ลายเส้นคมชัด -->
-                <svg class="banana-svg-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M52 10C48 9 44 11 41 14C32 23 20 38 18 48C17 53 19 57 24 57C34 57 48 43 55 31C58 26 59 19 56 14C55 12 54 11 52 10Z" fill="#FEE440"/>
-                    <path d="M52 10C48 9 44 11 41 14C32 23 20 38 18 48C17 53 19 57 24 57C26 57 28 56 31 54C27 52 24 47 25 43C28 32 39 19 49 12C50 11 51 10 52 10Z" fill="#F59E0B"/>
-                    <path d="M52 10L56 6C57 5 59 5 60 7C61 8 60 10 59 11L55 14" stroke="#78350F" stroke-width="2.5" stroke-linecap="round"/>
-                    <path d="M18 48C16 49 14 52 15 55C16 58 19 58 22 57" stroke="#78350F" stroke-width="2" stroke-linecap="round"/>
-                </svg>
+    <header data-aos="zoom-in" data-aos-duration="1000">
+        <div class="container header-content">
+            <div class="badge-tech">
+                <span class="banana-icon-spin">🍌</span> AI Bio-Polymer Innovation 2026
             </div>
-            <div>
-                <h2>Banana Film AI Analysis</h2>
-                <p>ระบบวิเคราะห์ค่าสี (RGB/HSV) และนวัตกรรมฟิล์มเคลือบอาหารชีวภาพ</p>
-            </div>
+            <h1 class="main-title">การพัฒนาฟิล์มเคลือบอาหารจากวัสดุเหลือใช้ทางการเกษตร</h1>
+            <p class="sub-title">ร่วมกับการวิเคราะห์การเปลี่ยนแปลงสีด้วยปัญญาประดิษฐ์ (Colorimetrical AI Analysis)</p>
         </div>
     </header>
 
@@ -38,15 +47,18 @@
     <main class="container">
         
         <!-- ส่วนอัปโหลดรูปภาพและเลือกข้อมูล -->
-        <section class="card upload-section">
-            <div class="card-title">
-                <i class="fa-solid fa-microscope title-icon"></i>
-                <h3>ระบบวิเคราะห์สีภาพถ่าย (AI Color Analyzer)</h3>
+        <section class="card glass-card upload-section" data-aos="fade-up" data-aos-duration="900">
+            <div class="card-title-row">
+                <div class="icon-badge">🍌</div>
+                <div>
+                    <h3>7. ระบบวิเคราะห์สีภาพถ่าย (AI Color Analyzer)</h3>
+                    <p class="card-desc">สกัดค่าสี RGB/HSV ผ่านกรอบสแกนอัจฉริยะและคำนวณประสิทธิภาพฟิล์ม</p>
+                </div>
             </div>
             
             <div class="control-panel">
                 <div class="input-group">
-                    <label><i class="fa-solid fa-flask-vial"></i> เลือกสูตรฟิล์มที่ทดสอบ:</label>
+                    <label>เลือกสูตรฟิล์มที่ทดสอบ:</label>
                     <select id="filmFormula">
                         <option value="formula1">สูตร 1: ไม่เคลือบแผ่นฟิล์ม</option>
                         <option value="formula2">สูตร 2: กลีเซอรอล + แป้งข้าวโพด + น้ำ + ผงกล้วย 10%</option>
@@ -55,7 +67,7 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label><i class="fa-solid fa-calendar-day"></i> บันทึกผลของวันที่ (0-7):</label>
+                    <label>บันทึกผลของวันที่ (0-7):</label>
                     <select id="testDay">
                         <option value="0">Day 0 (วันเริ่มต้น)</option>
                         <option value="1">Day 1</option>
@@ -68,9 +80,9 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label><i class="fa-solid fa-image"></i> เลือกรูปถ่ายตัวอย่าง:</label>
+                    <label>เลือกรูปถ่ายตัวอย่าง:</label>
                     <label class="btn-upload">
-                        <i class="fa-solid fa-camera-retro"></i> ถ่ายภาพ / เลือกรูปในเครื่อง
+                        📸 ถ่ายภาพ / เลือกรูปในเครื่อง
                         <input type="file" id="imageInput" accept="image/*">
                     </label>
                 </div>
@@ -79,70 +91,83 @@
             <!-- ส่วนควบคุมขนาดกรอบ ROI -->
             <div id="roiControls" class="roi-controls-panel" style="display: none;">
                 <div class="roi-hint">
-                    <i class="fa-solid fa-lightbulb"></i> <strong>วิธีเลือกพื้นที่:</strong> ลากย้ายกรอบสีเหลืองไปตำแหน่งที่ต้องการ หรือปรับขนาดกรอบ
+                    💡 <strong>วิธีเลือกพื้นที่:</strong> ลากย้ายกรอบสีทองนีออนไปตำแหน่งที่ต้องการ หรือปรับขนาดกรอบด้านล่าง
                 </div>
                 <div class="roi-slider-group">
-                    <label><i class="fa-solid fa-vector-square"></i> ขนาดกรอบตรวจจับ: <span id="roiSizeVal">80</span>px</label>
+                    <label>ขนาดกรอบสแกน: <span id="roiSizeVal">80</span>px</label>
                     <input type="range" id="roiSizeSlider" min="30" max="250" value="80">
                 </div>
             </div>
 
             <div class="preview-container">
                 <div class="image-box" id="imageBox">
+                    <div class="empty-state" id="emptyStateText">
+                        <div class="banana-radar">
+                            <span class="radar-center-icon">🍌</span>
+                        </div>
+                        <p>ยังไม่มีรูปภาพ กรุณาถ่ายภาพหรือเลือกรูปตัวอย่าง</p>
+                    </div>
                     <img id="previewImage" alt="ตัวอย่างรูปภาพจะแสดงที่นี่">
                     <div id="roiBox" class="roi-overlay">
-                        <span class="roi-tag"><i class="fa-solid fa-crosshairs"></i> ROI (ลากได้)</span>
+                        <div class="laser-scanner"></div>
+                        <span class="roi-tag">🍌 AI TARGET (ลากย้ายได้)</span>
                     </div>
                 </div>
                 <canvas id="processCanvas" style="display: none;"></canvas>
             </div>
 
-            <button id="analyzeBtn" class="btn-main" disabled>
-                <i class="fa-solid fa-chart-line"></i> วิเคราะห์และบันทึกลงกราฟ (Analyze & Record)
+            <button id="analyzeBtn" class="btn-main glow-yellow-btn" disabled>
+                <span>⚡ วิเคราะห์และบันทึกลงกราฟ (Analyze & Record)</span>
             </button>
         </section>
 
         <!-- ส่วนแสดงผลลัพธ์การคำนวณ -->
-        <section id="resultSection" class="card result-section" style="display: none;">
-            <div class="card-title">
-                <i class="fa-solid fa-palette title-icon"></i>
-                <h3>ผลการสกัดค่าสีและการแปลผล</h3>
+        <section id="resultSection" class="card glass-card result-section" style="display: none;">
+            <div class="card-title-row">
+                <div class="icon-badge">✨</div>
+                <div>
+                    <h3>ผลการสกัดค่าสีและการแปลผลทางวิทยาศาสตร์</h3>
+                    <p class="card-desc">วิเคราะห์โครงสร้างสีเฉลี่ยในพิกัด ROI</p>
+                </div>
             </div>
             
             <div class="color-display-row">
                 <div class="color-box-wrap">
-                    <p><i class="fa-solid fa-eye-dropper"></i> สีเฉลี่ยที่ตรวจพบ (ROI):</p>
+                    <p>สีเฉลี่ยที่ตรวจพบ (ROI):</p>
                     <div id="detectedColorBox" class="color-swatch"></div>
                 </div>
                 <div class="color-metrics">
                     <div class="metric-card">
-                        <h4><i class="fa-solid fa-cubes-stacked"></i> ค่า RGB เฉลี่ย</h4>
+                        <h4>ค่า RGB เฉลี่ย</h4>
                         <p id="rgbText">R: - | G: - | B: -</p>
                     </div>
                     <div class="metric-card">
-                        <h4><i class="fa-solid fa-circle-notch"></i> ค่า HSV (Hue ที่บันทึก)</h4>
+                        <h4>ค่า HSV (Hue ที่บันทึก)</h4>
                         <p id="hsvText">H: -° | S: -% | V: -%</p>
                     </div>
                 </div>
             </div>
 
             <div class="evaluation-box">
-                <h4><i class="fa-solid fa-clipboard-check"></i> สถานะการบันทึกข้อมูล:</h4>
+                <h4>📌 สถานะการบันทึกข้อมูล:</h4>
                 <p id="evaluationText">-</p>
             </div>
         </section>
 
         <!-- ส่วนกราฟเปรียบเทียบมาตรฐาน -->
-        <section class="card chart-section">
+        <section class="card glass-card chart-section" data-aos="fade-up" data-aos-duration="900">
             <div class="chart-header">
-                <div class="card-title">
-                    <i class="fa-solid fa-chart-simple title-icon"></i>
-                    <h3>กราฟบันทึกผลการทดลองจริง (Day 0 - Day 7)</h3>
+                <div class="card-title-row" style="margin-bottom: 0;">
+                    <div class="icon-badge">📈</div>
+                    <div>
+                        <h3>8. กราฟบันทึกผลการทดลองจริง (Day 0 - Day 7)</h3>
+                        <p class="card-desc">เปรียบเทียบการเปลี่ยนแปลงค่า Hue ตลอดอายุ 7 วัน</p>
+                    </div>
                 </div>
                 <div class="chart-actions">
-                    <button id="resetDataBtn" class="btn-action btn-danger"><i class="fa-solid fa-arrow-rotate-left"></i> ล้างข้อมูล</button>
-                    <button id="downloadChartImgBtn" class="btn-action"><i class="fa-solid fa-file-arrow-down"></i> บันทึกรูปภาพ</button>
-                    <button id="downloadChartCsvBtn" class="btn-action"><i class="fa-solid fa-file-csv"></i> บันทึก CSV</button>
+                    <button id="resetDataBtn" class="btn-action btn-danger">🔄 ล้างข้อมูลทั้งหมด</button>
+                    <button id="downloadChartImgBtn" class="btn-action">💾 บันทึกรูปภาพกราฟ</button>
+                    <button id="downloadChartCsvBtn" class="btn-action">📊 บันทึกไฟล์ CSV</button>
                 </div>
             </div>
             <div class="chart-canvas-container">
@@ -151,13 +176,16 @@
         </section>
 
         <!-- ส่วนสรุปผลการประเมินสูตรที่ดีที่สุด -->
-        <section id="summarySection" class="card summary-section">
-            <div class="card-title">
-                <i class="fa-solid fa-trophy title-icon"></i>
-                <h3>สรุปผลการประเมินประสิทธิภาพฟิล์ม</h3>
+        <section id="summarySection" class="card glass-card summary-section" data-aos="fade-up" data-aos-duration="900">
+            <div class="card-title-row">
+                <div class="icon-badge">🏆</div>
+                <div>
+                    <h3>สรุปผลการประเมินประสิทธิภาพฟิล์ม</h3>
+                    <p class="card-desc">ระบบ AI คำนวณสูตรที่มีการคงสภาพสีได้ดีที่สุดโดยอัตโนมัติ</p>
+                </div>
             </div>
             <div id="summaryContent">
-                <p class="summary-placeholder"><i class="fa-solid fa-hourglass-half"></i> กำลังรอข้อมูลบันทึกผลการทดลองจนถึง Day 7...</p>
+                <p class="summary-placeholder">กำลังรอข้อมูลบันทึกผลการทดลองจนถึง Day 7...</p>
             </div>
         </section>
 
@@ -165,7 +193,7 @@
 
     <!-- ส่วนท้ายของเว็บไซต์ -->
     <footer>
-        <p><i class="fa-solid fa-award"></i> &copy; 2026 โครงการพัฒนาฟิล์มเคลือบอาหารจากวัสดุเหลือใช้ทางการเกษตร</p>
+        <p>&copy; 2026 โครงการพัฒนาฟิล์มเคลือบอาหารจากวัสดุเหลือใช้ทางการเกษตร | Bio-Yellow Innovation</p>
     </footer>
 
     <script src="script.js"></script>

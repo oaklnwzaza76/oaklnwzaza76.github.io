@@ -1,7 +1,16 @@
+// เริ่มต้นระบบ Animate On Scroll (AOS)
+document.addEventListener("DOMContentLoaded", function() {
+    AOS.init({
+        once: true,
+        duration: 800
+    });
+});
+
 // ส่วนจัดการ DOM Elements
 const imageInput = document.getElementById('imageInput');
 const previewImage = document.getElementById('previewImage');
 const imageBox = document.getElementById('imageBox');
+const emptyStateText = document.getElementById('emptyStateText');
 const roiBox = document.getElementById('roiBox');
 const roiControls = document.getElementById('roiControls');
 const roiSizeSlider = document.getElementById('roiSizeSlider');
@@ -26,7 +35,6 @@ const summaryContent = document.getElementById('summaryContent');
 let currentImage = null;
 let chartInstance = null;
 
-// ตัวแปรพิกัดและขนาดของกรอบ ROI
 let roiX = 50;
 let roiY = 50;
 let roiSize = 80;
@@ -34,47 +42,62 @@ let isDragging = false;
 let dragStartX, dragStartY;
 let initialRoiX, initialRoiY;
 
-// ข้อมูลชุดผลการทดลอง ปรับพาเลตต์สีกราฟให้เข้ากับธีม
+// ข้อมูลชุดผลการทดลอง 4 สูตร
 const chartDataSets = [
     {
         key: 'formula1',
-        label: 'สูตร 1: ไม่เคลือบแผ่นฟิล์ม',
+        label: 'สูตร 1: ไม่เคลือบ',
         desc: 'กลุ่มควบคุมที่ไม่ได้รับการเคลือบฟิล์มป้องกัน',
         data: [null, null, null, null, null, null, null, null],
-        borderColor: '#dc2626',
-        backgroundColor: '#dc2626',
-        tension: 0.2
+        borderColor: '#e03131',
+        backgroundColor: '#e03131',
+        borderWidth: 3,
+        pointBackgroundColor: '#e03131',
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        tension: 0.3
     },
     {
         key: 'formula2',
         label: 'สูตร 2: ผงกล้วย 10%',
         desc: 'ฟิล์มเคลือบชีวภาพเสริมผงกล้วย 10%',
         data: [null, null, null, null, null, null, null, null],
-        borderColor: '#f59e0b',
-        backgroundColor: '#f59e0b',
-        tension: 0.2
+        borderColor: '#f76707',
+        backgroundColor: '#f76707',
+        borderWidth: 3,
+        pointBackgroundColor: '#f76707',
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        tension: 0.3
     },
     {
         key: 'formula3',
         label: 'สูตร 3: ผงกล้วย 20%',
         desc: 'ฟิล์มเคลือบชีวภาพเสริมผงกล้วย 20%',
         data: [null, null, null, null, null, null, null, null],
-        borderColor: '#10b981',
-        backgroundColor: '#10b981',
-        tension: 0.2
+        borderColor: '#2f9e44',
+        backgroundColor: '#2f9e44',
+        borderWidth: 3,
+        pointBackgroundColor: '#2f9e44',
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        tension: 0.3
     },
     {
         key: 'formula4',
         label: 'สูตร 4: ผงกล้วย 30%',
         desc: 'ฟิล์มเคลือบชีวภาพเสริมผงกล้วย 30%',
         data: [null, null, null, null, null, null, null, null],
-        borderColor: '#0284c7',
-        backgroundColor: '#0284c7',
-        tension: 0.2
+        borderColor: '#1971c2',
+        backgroundColor: '#1971c2',
+        borderWidth: 3,
+        pointBackgroundColor: '#1971c2',
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        tension: 0.3
     }
 ];
 
-// ฟังก์ชันแปลง RGB เป็น HSV
 function rgbToHsv(r, g, b) {
     r /= 255;
     g /= 255;
@@ -106,7 +129,6 @@ function rgbToHsv(r, g, b) {
     return { h, s, v };
 }
 
-// อัปเดตตำแหน่งและขนาดกรอบ ROI บนหน้าจอ
 function updateRoiPosition() {
     const boxWidth = previewImage.clientWidth;
     const boxHeight = previewImage.clientHeight;
@@ -122,7 +144,6 @@ function updateRoiPosition() {
     roiBox.style.height = `${roiSize}px`;
 }
 
-// ส่วนจัดการเมื่ออัปโหลดรูปภาพ
 imageInput.addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
@@ -130,6 +151,7 @@ imageInput.addEventListener('change', function(e) {
         reader.onload = function(event) {
             previewImage.src = event.target.result;
             previewImage.style.display = 'block';
+            if (emptyStateText) emptyStateText.style.display = 'none';
             
             previewImage.onload = function() {
                 currentImage = previewImage;
@@ -151,7 +173,6 @@ imageInput.addEventListener('change', function(e) {
     }
 });
 
-// ส่วนจัดการลากย้ายกรอบ ROI (Mouse / Touch)
 roiBox.addEventListener('mousedown', function(e) {
     isDragging = true;
     dragStartX = e.clientX;
@@ -197,19 +218,27 @@ window.addEventListener('touchend', function() {
     isDragging = false;
 });
 
-// ปรับขนาดกรอบ ROI ผ่านสไลเดอร์
 roiSizeSlider.addEventListener('input', function() {
     roiSize = parseInt(this.value, 10);
     roiSizeVal.textContent = roiSize;
     updateRoiPosition();
 });
 
-// ฟังก์ชันตรวจสอบและสรุปผลสูตรที่ดีที่สุดเมื่อมีข้อมูล Day 7
+// ฟังก์ชันยิงพลุสีทอง Golden Confetti
+function triggerGoldenConfetti() {
+    confetti({
+        particleCount: 100,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#ffd43b', '#fab005', '#f59f00', '#ffffff', '#e67700']
+    });
+}
+
 function checkAndGenerateSummary() {
     const completedFormulas = chartDataSets.filter(ds => ds.data[7] !== null && ds.data[0] !== null);
 
     if (completedFormulas.length === 0) {
-        summaryContent.innerHTML = '<p class="summary-placeholder"><i class="fa-solid fa-hourglass-half"></i> กำลังรอข้อมูลบันทึกผลการทดลองจนถึง Day 7...</p>';
+        summaryContent.innerHTML = '<p class="summary-placeholder">กำลังรอข้อมูลบันทึกผลการทดลองจนถึง Day 7...</p>';
         return;
     }
 
@@ -225,16 +254,19 @@ function checkAndGenerateSummary() {
 
     const best = ranked[0];
 
+    // ยิงพลุฉลอง
+    triggerGoldenConfetti();
+
     let summaryHtml = `
-        <div class="best-badge"><i class="fa-solid fa-crown"></i> สูตรที่มีประสิทธิภาพดีที่สุด</div>
+        <div class="best-badge">🏆 สูตรที่มีประสิทธิภาพดีที่สุด</div>
         <div class="best-card">
-            <h4><i class="fa-solid fa-certificate" style="color: #f59e0b;"></i> ${best.label}</h4>
-            <p><strong>คุณสมบัติ:</strong> ${best.desc}</p>
+            <h4>${best.label}</h4>
+            <p><strong>คุณสมบัติเด่น:</strong> ${best.desc}</p>
             <p><strong>ผลการวิเคราะห์สี:</strong> ค่า Hue ในวันเริ่มต้น (Day 0) อยู่ที่ <strong>${best.data[0]}°</strong> และในวันที่ 7 (Day 7) คงสภาพอยู่ที่ <strong>${best.finalHue}°</strong> (เกิดการเปลี่ยนแปลงสีเพียง <strong>${best.diff}°</strong>)</p>
             <p><strong>สรุปผลทางวิทยาศาสตร์:</strong> แผ่นฟิล์มสูตรนี้สามารถป้องกันการเกิดปฏิกิริยาออกซิเดชัน (Oxidation) และชะลอการสลายตัวของสารแอนโทไซยานิน/รงควัตถุในน้ำผลไม้ได้ยาวนานที่สุดในระยะเวลา 7 วัน</p>
         </div>
         
-        <h4 style="margin-top: 22px; color: #92400e; font-size: 1.05rem;"><i class="fa-solid fa-table-list"></i> ตารางเปรียบเทียบการเปลี่ยนแปลงสี (Day 0 - Day 7):</h4>
+        <h4 style="margin-top: 22px; color: #5c4700;">ตารางเปรียบเทียบการเปลี่ยนแปลงสี (Day 0 - Day 7):</h4>
         <table class="formula-rank-list">
             <thead>
                 <tr>
@@ -250,14 +282,14 @@ function checkAndGenerateSummary() {
     `;
 
     ranked.forEach((item, index) => {
-        const status = index === 0 ? '<span style="color:#059669; font-weight:700;"><i class="fa-solid fa-circle-check"></i> ดีที่สุด</span>' : (item.diff <= 25 ? '<span style="color:#d97706; font-weight:600;">ดี</span>' : '<span style="color:#dc2626;">ปานกลาง / ต่ำ</span>');
+        const status = index === 0 ? '🌟 ดีที่สุด (Best)' : (item.diff <= 25 ? '✅ ดี' : '⚠️ ปานกลาง / ต่ำ');
         summaryHtml += `
             <tr>
                 <td><strong>#${index + 1}</strong></td>
                 <td>${item.label}</td>
                 <td>${item.data[0]}°</td>
                 <td>${item.finalHue}°</td>
-                <td><strong>${item.diff}°</strong></td>
+                <td>${item.diff}°</td>
                 <td>${status}</td>
             </tr>
         `;
@@ -271,7 +303,6 @@ function checkAndGenerateSummary() {
     summaryContent.innerHTML = summaryHtml;
 }
 
-// ส่วนคำนวณและประมวลผลสีจาก ROI ตามตำแหน่งที่เลือกจริง
 analyzeBtn.addEventListener('click', function() {
     if (!currentImage) return;
 
@@ -309,6 +340,7 @@ analyzeBtn.addEventListener('click', function() {
     const hsv = rgbToHsv(avgR, avgG, avgB);
 
     detectedColorBox.style.backgroundColor = `rgb(${avgR}, ${avgG}, ${avgB})`;
+    detectedColorBox.style.boxShadow = `0 4px 18px rgba(${avgR}, ${avgG}, ${avgB}, 0.6)`;
     rgbText.textContent = `R: ${avgR} | G: ${avgG} | B: ${avgB}`;
     hsvText.textContent = `H: ${hsv.h}° | S: ${hsv.s}% | V: ${hsv.v}%`;
 
@@ -322,8 +354,9 @@ analyzeBtn.addEventListener('click', function() {
         checkAndGenerateSummary();
     }
 
-    evaluationText.innerHTML = `บันทึกค่า Hue = <strong>${hsv.h}°</strong> จากพื้นที่ที่เลือก สำหรับ [${targetDataset.label}] ใน [Day ${selectedDay}] เรียบร้อยแล้ว`;
+    evaluationText.textContent = `บันทึกค่า Hue = ${hsv.h}° จากพื้นที่ที่เลือก สำหรับ [${targetDataset.label}] ใน [Day ${selectedDay}] สำเร็จแล้ว`;
     resultSection.style.display = 'block';
+    resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
 
 // ส่วนสร้างกราฟ Chart.js
@@ -340,17 +373,42 @@ document.addEventListener("DOMContentLoaded", function() {
             responsive: true,
             maintainAspectRatio: false,
             spanGaps: true,
+            animation: {
+                duration: 900,
+                easing: 'easeOutQuart'
+            },
+            layout: {
+                padding: {
+                    top: 10,
+                    bottom: 10
+                }
+            },
             plugins: {
                 legend: {
                     position: 'top',
                     labels: {
-                        boxWidth: 14,
-                        padding: 15,
+                        usePointStyle: true,
+                        pointStyle: 'circle',
+                        boxWidth: 9,
+                        boxHeight: 9,
+                        padding: 14,
+                        color: '#493800',
                         font: {
-                            family: 'Prompt',
-                            size: 12
-                        },
-                        color: '#451a03'
+                            family: "'Prompt', sans-serif",
+                            size: 11,
+                            weight: '600'
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(56, 40, 0, 0.9)',
+                    titleFont: { family: "'Prompt', sans-serif", weight: 'bold' },
+                    bodyFont: { family: "'Prompt', sans-serif" },
+                    padding: 10,
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.dataset.label}: ${context.parsed.y !== null ? context.parsed.y + '°' : 'ยังไม่มีข้อมูล'}`;
+                        }
                     }
                 }
             },
@@ -360,49 +418,41 @@ document.addEventListener("DOMContentLoaded", function() {
                     max: 360,
                     ticks: {
                         stepSize: 60,
-                        color: '#78350f',
-                        font: {
-                            family: 'Prompt'
-                        }
+                        color: '#796213',
+                        font: { family: "'Prompt', sans-serif", size: 10 }
                     },
                     title: {
                         display: true,
                         text: 'ค่า Hue (0 - 360°)',
-                        color: '#92400e',
-                        font: {
-                            family: 'Prompt',
-                            weight: '600'
-                        }
+                        color: '#d9480f',
+                        font: { family: "'Prompt', sans-serif", weight: 'bold', size: 11 }
                     },
                     grid: {
-                        color: 'rgba(245, 158, 11, 0.12)'
+                        color: 'rgba(245, 159, 0, 0.1)'
                     }
                 },
                 x: {
                     ticks: {
-                        color: '#78350f',
-                        font: {
-                            family: 'Prompt'
-                        }
+                        color: '#796213',
+                        font: { family: "'Prompt', sans-serif", size: 10 },
+                        maxRotation: 45,
+                        minRotation: 0,
+                        autoSkip: false
                     },
                     title: {
                         display: true,
                         text: 'วันที่บันทึกผลการทดลอง',
-                        color: '#92400e',
-                        font: {
-                            family: 'Prompt',
-                            weight: '600'
-                        }
+                        color: '#d9480f',
+                        font: { family: "'Prompt', sans-serif", weight: 'bold', size: 11 }
                     },
                     grid: {
-                        color: 'rgba(245, 158, 11, 0.12)'
+                        color: 'rgba(245, 159, 0, 0.1)'
                     }
                 }
             }
         }
     });
 
-    // ฟังก์ชันล้างข้อมูลทั้งหมด
     resetDataBtn.addEventListener('click', function() {
         if (confirm('คุณต้องการล้างข้อมูลการทดลองทั้งหมดใช่หรือไม่?')) {
             chartDataSets.forEach(ds => {
@@ -414,7 +464,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // ฟังก์ชันบันทึกกราฟเป็นรูปภาพ PNG
     downloadChartImgBtn.addEventListener('click', function() {
         const chartCanvas = document.getElementById('resultsChart');
         
@@ -428,12 +477,11 @@ document.addEventListener("DOMContentLoaded", function() {
         tempCtx.drawImage(chartCanvas, 0, 0);
 
         const link = document.createElement('a');
-        link.download = 'banana_film_chart_result.png';
+        link.download = 'chart-recorded-result.png';
         link.href = tempCanvas.toDataURL('image/png', 1.0);
         link.click();
     });
 
-    // ฟังก์ชันบันทึกข้อมูลกราฟเป็นไฟล์ CSV
     downloadChartCsvBtn.addEventListener('click', function() {
         const days = ['Day 0', 'Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'];
         let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
@@ -449,7 +497,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement('a');
         link.setAttribute('href', encodedUri);
-        link.setAttribute('download', 'banana_film_color_data.csv');
+        link.setAttribute('download', 'color_recorded_data.csv');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
