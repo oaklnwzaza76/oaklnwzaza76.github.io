@@ -34,42 +34,42 @@ let isDragging = false;
 let dragStartX, dragStartY;
 let initialRoiX, initialRoiY;
 
-// ข้อมูลชุดผลการทดลอง
+// ข้อมูลชุดผลการทดลอง ปรับพาเลตต์สีกราฟให้เข้ากับธีม
 const chartDataSets = [
     {
         key: 'formula1',
         label: 'สูตร 1: ไม่เคลือบแผ่นฟิล์ม',
         desc: 'กลุ่มควบคุมที่ไม่ได้รับการเคลือบฟิล์มป้องกัน',
         data: [null, null, null, null, null, null, null, null],
-        borderColor: '#e53935',
-        backgroundColor: '#e53935',
+        borderColor: '#dc2626',
+        backgroundColor: '#dc2626',
         tension: 0.2
     },
     {
         key: 'formula2',
-        label: 'สูตร 2: กลีเซอรอล + แป้งข้าวโพด + น้ำ + ผงกล้วย 10%',
+        label: 'สูตร 2: ผงกล้วย 10%',
         desc: 'ฟิล์มเคลือบชีวภาพเสริมผงกล้วย 10%',
         data: [null, null, null, null, null, null, null, null],
-        borderColor: '#fb8c00',
-        backgroundColor: '#fb8c00',
+        borderColor: '#f59e0b',
+        backgroundColor: '#f59e0b',
         tension: 0.2
     },
     {
         key: 'formula3',
-        label: 'สูตร 3: กลีเซอรอล + แป้งข้าวโพด + น้ำ + ผงกล้วย 20%',
+        label: 'สูตร 3: ผงกล้วย 20%',
         desc: 'ฟิล์มเคลือบชีวภาพเสริมผงกล้วย 20%',
         data: [null, null, null, null, null, null, null, null],
-        borderColor: '#43a047',
-        backgroundColor: '#43a047',
+        borderColor: '#10b981',
+        backgroundColor: '#10b981',
         tension: 0.2
     },
     {
         key: 'formula4',
-        label: 'สูตร 4: กลีเซอรอล + แป้งข้าวโพด + น้ำ + ผงกล้วย 30%',
+        label: 'สูตร 4: ผงกล้วย 30%',
         desc: 'ฟิล์มเคลือบชีวภาพเสริมผงกล้วย 30%',
         data: [null, null, null, null, null, null, null, null],
-        borderColor: '#1e88e5',
-        backgroundColor: '#1e88e5',
+        borderColor: '#0284c7',
+        backgroundColor: '#0284c7',
         tension: 0.2
     }
 ];
@@ -206,16 +206,13 @@ roiSizeSlider.addEventListener('input', function() {
 
 // ฟังก์ชันตรวจสอบและสรุปผลสูตรที่ดีที่สุดเมื่อมีข้อมูล Day 7
 function checkAndGenerateSummary() {
-    // กรองหาสูตรที่มีข้อมูล Day 7
     const completedFormulas = chartDataSets.filter(ds => ds.data[7] !== null && ds.data[0] !== null);
 
     if (completedFormulas.length === 0) {
-        summaryContent.innerHTML = '<p class="summary-placeholder">กำลังรอข้อมูลบันทึกผลการทดลองจนถึง Day 7...</p>';
+        summaryContent.innerHTML = '<p class="summary-placeholder"><i class="fa-solid fa-hourglass-half"></i> กำลังรอข้อมูลบันทึกผลการทดลองจนถึง Day 7...</p>';
         return;
     }
 
-    // คำนวณอัตราการคงสภาพสี (สูตรที่ค่า Hue ใน Day 7 ใกล้เคียง Day 0 มากที่สุด หรือมีค่า Hue สูงสุด)
-    // การเปลี่ยนแปลงของ Hue = |Hue Day 7 - Hue Day 0|
     const ranked = completedFormulas.map(ds => {
         const diff = Math.abs(ds.data[7] - ds.data[0]);
         const finalHue = ds.data[7];
@@ -224,20 +221,20 @@ function checkAndGenerateSummary() {
             diff: diff,
             finalHue: finalHue
         };
-    }).sort((a, b) => a.diff - b.diff); // สูตรที่เปลี่ยนสีน้อยสุดอยู่อันดับ 1
+    }).sort((a, b) => a.diff - b.diff);
 
     const best = ranked[0];
 
     let summaryHtml = `
-        <div class="best-badge">⭐ สูตรที่มีประสิทธิภาพดีที่สุด</div>
+        <div class="best-badge"><i class="fa-solid fa-crown"></i> สูตรที่มีประสิทธิภาพดีที่สุด</div>
         <div class="best-card">
-            <h4>${best.label}</h4>
+            <h4><i class="fa-solid fa-certificate" style="color: #f59e0b;"></i> ${best.label}</h4>
             <p><strong>คุณสมบัติ:</strong> ${best.desc}</p>
             <p><strong>ผลการวิเคราะห์สี:</strong> ค่า Hue ในวันเริ่มต้น (Day 0) อยู่ที่ <strong>${best.data[0]}°</strong> และในวันที่ 7 (Day 7) คงสภาพอยู่ที่ <strong>${best.finalHue}°</strong> (เกิดการเปลี่ยนแปลงสีเพียง <strong>${best.diff}°</strong>)</p>
             <p><strong>สรุปผลทางวิทยาศาสตร์:</strong> แผ่นฟิล์มสูตรนี้สามารถป้องกันการเกิดปฏิกิริยาออกซิเดชัน (Oxidation) และชะลอการสลายตัวของสารแอนโทไซยานิน/รงควัตถุในน้ำผลไม้ได้ยาวนานที่สุดในระยะเวลา 7 วัน</p>
         </div>
         
-        <h4 style="margin-top: 20px; color: #1b5e20;">ตารางเปรียบเทียบการเปลี่ยนแปลงสี (Day 0 - Day 7):</h4>
+        <h4 style="margin-top: 22px; color: #92400e; font-size: 1.05rem;"><i class="fa-solid fa-table-list"></i> ตารางเปรียบเทียบการเปลี่ยนแปลงสี (Day 0 - Day 7):</h4>
         <table class="formula-rank-list">
             <thead>
                 <tr>
@@ -253,14 +250,14 @@ function checkAndGenerateSummary() {
     `;
 
     ranked.forEach((item, index) => {
-        const status = index === 0 ? 'ดีที่สุด (Best)' : (item.diff <= 25 ? 'ดี' : 'ปานกลาง / ต่ำ');
+        const status = index === 0 ? '<span style="color:#059669; font-weight:700;"><i class="fa-solid fa-circle-check"></i> ดีที่สุด</span>' : (item.diff <= 25 ? '<span style="color:#d97706; font-weight:600;">ดี</span>' : '<span style="color:#dc2626;">ปานกลาง / ต่ำ</span>');
         summaryHtml += `
             <tr>
                 <td><strong>#${index + 1}</strong></td>
                 <td>${item.label}</td>
                 <td>${item.data[0]}°</td>
                 <td>${item.finalHue}°</td>
-                <td>${item.diff}°</td>
+                <td><strong>${item.diff}°</strong></td>
                 <td>${status}</td>
             </tr>
         `;
@@ -325,7 +322,7 @@ analyzeBtn.addEventListener('click', function() {
         checkAndGenerateSummary();
     }
 
-    evaluationText.textContent = `บันทึกค่า Hue = ${hsv.h}° จากพื้นที่ที่เลือก สำหรับ [${targetDataset.label}] ใน [Day ${selectedDay}] สำเร็จแล้ว`;
+    evaluationText.innerHTML = `บันทึกค่า Hue = <strong>${hsv.h}°</strong> จากพื้นที่ที่เลือก สำหรับ [${targetDataset.label}] ใน [Day ${selectedDay}] เรียบร้อยแล้ว`;
     resultSection.style.display = 'block';
 });
 
@@ -342,16 +339,18 @@ document.addEventListener("DOMContentLoaded", function() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            spanGaps: true, // ลากเส้นเชื่อมแม้ข้อมูลบางวันยังเป็น null
+            spanGaps: true,
             plugins: {
                 legend: {
                     position: 'top',
                     labels: {
-                        boxWidth: 15,
+                        boxWidth: 14,
                         padding: 15,
                         font: {
+                            family: 'Prompt',
                             size: 12
-                        }
+                        },
+                        color: '#451a03'
                     }
                 }
             },
@@ -360,29 +359,43 @@ document.addEventListener("DOMContentLoaded", function() {
                     min: 0,
                     max: 360,
                     ticks: {
-                        stepSize: 60
+                        stepSize: 60,
+                        color: '#78350f',
+                        font: {
+                            family: 'Prompt'
+                        }
                     },
                     title: {
                         display: true,
                         text: 'ค่า Hue (0 - 360°)',
+                        color: '#92400e',
                         font: {
-                            weight: 'bold'
+                            family: 'Prompt',
+                            weight: '600'
                         }
                     },
                     grid: {
-                        color: 'rgba(0, 0, 0, 0.06)'
+                        color: 'rgba(245, 158, 11, 0.12)'
                     }
                 },
                 x: {
+                    ticks: {
+                        color: '#78350f',
+                        font: {
+                            family: 'Prompt'
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'วันที่บันทึกผล',
+                        text: 'วันที่บันทึกผลการทดลอง',
+                        color: '#92400e',
                         font: {
-                            weight: 'bold'
+                            family: 'Prompt',
+                            weight: '600'
                         }
                     },
                     grid: {
-                        color: 'rgba(0, 0, 0, 0.06)'
+                        color: 'rgba(245, 158, 11, 0.12)'
                     }
                 }
             }
@@ -415,7 +428,7 @@ document.addEventListener("DOMContentLoaded", function() {
         tempCtx.drawImage(chartCanvas, 0, 0);
 
         const link = document.createElement('a');
-        link.download = 'chart-recorded-result.png';
+        link.download = 'banana_film_chart_result.png';
         link.href = tempCanvas.toDataURL('image/png', 1.0);
         link.click();
     });
@@ -436,7 +449,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement('a');
         link.setAttribute('href', encodedUri);
-        link.setAttribute('download', 'color_recorded_data.csv');
+        link.setAttribute('download', 'banana_film_color_data.csv');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
