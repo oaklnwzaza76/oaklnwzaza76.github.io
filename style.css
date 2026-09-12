@@ -20,6 +20,7 @@ body {
     min-height: 100vh;
 }
 
+/* พื้นหลังลูกแก้วเรืองแสง */
 .glow-orb {
     position: fixed;
     border-radius: 50%;
@@ -31,8 +32,8 @@ body {
 }
 
 .orb-1 {
-    width: 460px;
-    height: 460px;
+    width: 480px;
+    height: 480px;
     background: radial-gradient(circle, #ab47bc, #6a1b9a, transparent 70%);
     top: -100px;
     left: -100px;
@@ -48,11 +49,11 @@ body {
 }
 
 .orb-3 {
-    width: 360px;
-    height: 360px;
+    width: 380px;
+    height: 380px;
     background: radial-gradient(circle, #d81b60, #8e24aa, transparent 70%);
-    top: 45%;
-    left: 40%;
+    top: 40%;
+    left: 42%;
     opacity: 0.3;
     animation-delay: -10s;
 }
@@ -85,6 +86,15 @@ header {
     margin-bottom: 12px;
 }
 
+.animate-pulse-badge {
+    animation: softPulse 2.8s infinite ease-in-out;
+}
+
+@keyframes softPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+}
+
 .cabbage-icon-spin {
     display: inline-block;
     animation: wobble 3s infinite ease-in-out;
@@ -108,12 +118,12 @@ header p {
 }
 
 .container {
-    max-width: 960px;
+    max-width: 980px;
     margin: 25px auto;
     padding: 0 16px;
 }
 
-/* แท็บโหมดการทำงาน */
+/* เมนูแท็บ */
 .mode-tabs {
     display: flex;
     gap: 12px;
@@ -123,7 +133,7 @@ header p {
 .tab-btn {
     flex: 1;
     padding: 14px 18px;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.85);
     border: 2px solid #e1bee7;
     border-radius: 14px;
     font-size: 0.95rem;
@@ -190,10 +200,10 @@ header p {
     color: #6a1b9a;
 }
 
-/* ควบคุมชุดนำเข้าหลายรูป */
-.control-panel-batch {
+/* แผงควบคุมแบบ Grid */
+.control-panel-grid {
     display: grid;
-    grid-template-columns: 1.3fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     margin-bottom: 18px;
 }
@@ -222,7 +232,32 @@ header p {
     border-color: #7b1fa2;
 }
 
-.input-group input[type="file"] {
+/* กล่องอัปโหลดภาพคู่ ก่อน vs หลัง */
+.upload-pair-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.pair-upload-box {
+    background: #fdfbfe;
+    border: 1.5px solid #e1bee7;
+    border-radius: 14px;
+    padding: 16px;
+}
+
+.upload-box-title {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #38006b;
+    margin-bottom: 10px;
+}
+
+.input-group input[type="file"],
+.pair-upload-box input[type="file"],
+.single-upload-wrapper input[type="file"] {
     display: none;
 }
 
@@ -239,6 +274,7 @@ header p {
     font-weight: 700;
     font-size: 0.9rem;
     transition: all 0.25s;
+    user-select: none;
 }
 
 .btn-upload:hover {
@@ -247,7 +283,20 @@ header p {
     transform: translateY(-2px);
 }
 
-/* กริดพรีวิวรูปภาพหลายรูป */
+.single-upload-wrapper {
+    margin-bottom: 18px;
+}
+
+/* กริดพรีวิวรูปภาพ */
+.pair-thumb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+    gap: 8px;
+    margin-top: 12px;
+    max-height: 180px;
+    overflow-y: auto;
+}
+
 .batch-preview-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -256,7 +305,7 @@ header p {
     border: 1.5px solid #e1bee7;
     padding: 16px;
     border-radius: 14px;
-    max-height: 280px;
+    max-height: 260px;
     overflow-y: auto;
     margin-bottom: 20px;
 }
@@ -265,10 +314,9 @@ header p {
     position: relative;
     border-radius: 10px;
     overflow: hidden;
-    background: #f3e5f5;
-    height: 90px;
+    height: 85px;
     border: 2px solid #ce93d8;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    background: #f3e5f5;
 }
 
 .batch-thumb-item img {
@@ -318,7 +366,7 @@ header p {
     box-shadow: none;
 }
 
-/* สถิติการสะสมภาพฝึก */
+/* สถิติการสะสมภาพ */
 .dataset-stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -342,7 +390,7 @@ header p {
 }
 
 .stat-num {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     font-weight: 800;
 }
 
@@ -351,7 +399,7 @@ header p {
 .text-green { color: #2e7d32; }
 .text-red { color: #c62828; }
 
-/* การ์ดประเมินผลความแม่นยำ */
+/* การ์ดสรุปผลการประเมิน */
 .eval-card {
     background: linear-gradient(135deg, #fdfbfe 0%, #f3e5f5 100%);
     border: 2px solid #ba68c8;
@@ -413,7 +461,7 @@ header p {
     margin-left: 6px;
 }
 
-/* ตารางแสดงผลรายรูป */
+/* ตารางแสดงผล */
 .table-responsive-wrapper {
     width: 100%;
     overflow-x: auto;
@@ -480,7 +528,8 @@ footer {
 }
 
 @media (max-width: 650px) {
-    .control-panel-batch { grid-template-columns: 1fr; }
+    .control-panel-grid { grid-template-columns: 1fr; }
+    .upload-pair-container { grid-template-columns: 1fr; }
     .dataset-stats-grid { grid-template-columns: 1fr; }
     .mode-tabs { flex-direction: column; }
     .eval-stats-row { flex-direction: column; gap: 8px; }

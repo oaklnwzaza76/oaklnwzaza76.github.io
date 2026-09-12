@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartFresh Label AI - ระบบเรียนรู้และจำแนกระดับสีฉลากแบบชุดข้อมูล</title>
+    <title>SmartFresh Label AI - ระบบวิเคราะห์การเปลี่ยนสีฉลาก 4 สูตรทดลอง</title>
     <link rel="stylesheet" href="style.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,127 +21,157 @@
     <div class="glow-orb orb-2"></div>
     <div class="glow-orb orb-3"></div>
 
+    <!-- ส่วนหัวเว็บไซต์ -->
     <header data-aos="fade-down" data-aos-duration="1000">
         <div class="container header-content">
             <div class="badge-tech animate-pulse-badge">
-                <span class="cabbage-icon-spin">🥬</span> SmartFresh Label AI Pipeline
+                <span class="cabbage-icon-spin">🥬</span> 4-Formula Colorimetric AI Analysis
             </div>
-            <h1 class="main-title">ระบบฝึกและทดสอบ AI วิเคราะห์ฉลากกะหล่ำปลีม่วง</h1>
-            <p class="sub-title">สร้างฐานข้อมูลตัวอย่าง (เปลี่ยนน้อย / ปานกลาง / มาก) วิเคราะห์แบบชุดภาพหลายรูป และประเมินความแม่นยำ</p>
+            <h1 class="main-title">SmartFresh Label: ระบบ AI วิเคราะห์การเปลี่ยนสีฉลาก 4 สูตร</h1>
+            <p class="sub-title">เปรียบเทียบภาพถ่ายฉลากก่อน–หลังทดลอง เพื่อประเมินระดับการเปลี่ยนแปลง (น้อย / ปานกลาง / มาก)</p>
         </div>
     </header>
 
     <main class="container">
         
-        <!-- แท็บเลือกระบบ: ฝึกโมเดล vs ทดสอบโมเดล -->
+        <!-- แถบสลับโหมดการทำงาน -->
         <div class="mode-tabs" data-aos="fade-up">
             <button id="tabTrainBtn" class="tab-btn active">
-                📚 ขั้นที่ 1: นำเข้าภาพฝึกสอน AI (Training Dataset)
+                📚 ขั้นที่ 1: บันทึกภาพ 4 สูตร ฝึกระบบ AI (Before-After Training)
             </button>
             <button id="tabTestBtn" class="tab-btn">
-                🧪 ขั้นที่ 2: นำเข้าภาพทดสอบ & ประเมินผล (Testing & Evaluation)
+                🧪 ขั้นที่ 2: ทดสอบภาพใหม่ & ประเมินความถูกต้อง (Testing & Validation)
             </button>
         </div>
 
-        <!-- หน้าที่ 1: นำเข้าภาพหลายรูปเพื่อสร้างฐานข้อมูลฝึก AI -->
+        <!-- หน้าที่ 1: ฝึกระบบ AI ด้วยภาพก่อน-หลังของแต่ละสูตร -->
         <section id="trainSection" class="card glass-card hover-glow" data-aos="fade-up" data-aos-duration="900">
             <div class="card-title-row">
-                <div class="icon-badge">📁</div>
+                <div class="icon-badge">🧪</div>
                 <div>
-                    <h3>1. นำเข้าภาพถ่ายฉลากสร้างฐานข้อมูล (Batch Image Training)</h3>
-                    <p class="card-desc">เลือกภาพหลายรูปพร้อมกัน กำหนดระดับสีจริงจากการทดลอง เพื่อให้ AI สกัด RGB/HSV และจดจำรูปแบบ</p>
+                    <h3>1. นำเข้าภาพถ่ายฉลากก่อนและหลังทดลอง (4 สูตรการทดลอง)</h3>
+                    <p class="card-desc">สกัดค่าสีเพื่อคำนวณผลต่างการเปลี่ยนสี (ΔColor) และกำหนดระดับการเปลี่ยนแปลงเข้าสู่ฐานข้อมูล</p>
                 </div>
             </div>
 
-            <div class="control-panel-batch">
+            <div class="control-panel-grid">
                 <div class="input-group">
-                    <label>ระดับการเปลี่ยนแปลงสีของชุดภาพนี้ (Ground Truth Label):</label>
-                    <select id="trainClassLabel" class="interactive-input">
-                        <option value="low">ระดับ 1: เปลี่ยนน้อย (สีม่วงเดิม / ใกล้เคียงเริ่มต้น)</option>
-                        <option value="medium">ระดับ 2: เปลี่ยนปานกลาง (เริ่มเปลี่ยนเป็นน้ำเงิน / ฟ้า)</option>
-                        <option value="high">ระดับ 3: เปลี่ยนมาก (เปลี่ยนเป็นเขียว / เขียวอมเหลือง หรือชมพูเข้ม)</option>
+                    <label>สูตรการทดลองที่ใช้:</label>
+                    <select id="trainFormula" class="interactive-input">
+                        <option value="formula1">สูตร 1: น้ำกะหล่ำปลีม่วงล้วน (สารสกัดตั้งต้น)</option>
+                        <option value="formula2">สูตร 2: น้ำสะอาด + น้ำกะหล่ำปลีม่วง (เจือจาง)</option>
+                        <option value="formula3">สูตร 3: เบกกิ้งโซดา + น้ำกะหล่ำปลีม่วง (สภาวะด่าง)</option>
+                        <option value="formula4">สูตร 4: น้ำส้มสายชู + น้ำกะหล่ำปลีม่วง (สภาวะกรด)</option>
                     </select>
                 </div>
                 <div class="input-group">
-                    <label>เลือกภาพถ่ายฉลาก (เลือกได้ครั้งละหลายรูป):</label>
-                    <label class="btn-upload btn-shimmer">
-                        <span>📸 เลือกรูปหลายภาพ (Multiple Images)</span>
-                        <input type="file" id="trainImagesInput" accept="image/*" multiple>
-                    </label>
+                    <label>ระดับการเปลี่ยนสีที่กำหนดจริง (Ground Truth):</label>
+                    <select id="trainGroundTruth" class="interactive-input">
+                        <option value="low">ระดับ 1: เปลี่ยนน้อย (สีใกล้เคียงเดิม)</option>
+                        <option value="medium">ระดับ 2: เปลี่ยนปานกลาง (เริ่มเปลี่ยนเฉด)</option>
+                        <option value="high">ระดับ 3: เปลี่ยนมาก (เปลี่ยนสีชัดเจน)</option>
+                    </select>
                 </div>
             </div>
 
-            <!-- กล่องพรีวิวก่อนกดเรียนรู้ -->
-            <div id="trainPreviewArea" class="batch-preview-grid" style="display: none;"></div>
+            <!-- กล่องอัปโหลดภาพคู่: ก่อน vs หลัง -->
+            <div class="upload-pair-container">
+                <div class="pair-upload-box">
+                    <span class="upload-box-title">📷 ภาพฉลาก "ก่อนทดลอง" (Before)</span>
+                    <label class="btn-upload btn-shimmer">
+                        <span>เลือกรูปก่อนทดลอง (หลายรูปได้)</span>
+                        <input type="file" id="trainBeforeInput" accept="image/*" multiple>
+                    </label>
+                    <div id="beforePreviewGrid" class="pair-thumb-grid"></div>
+                </div>
+
+                <div class="pair-upload-box">
+                    <span class="upload-box-title">📸 ภาพฉลาก "หลังทดลอง" (After)</span>
+                    <label class="btn-upload btn-shimmer">
+                        <span>เลือกรูปหลังทดลอง (หลายรูปได้)</span>
+                        <input type="file" id="trainAfterInput" accept="image/*" multiple>
+                    </label>
+                    <div id="afterPreviewGrid" class="pair-thumb-grid"></div>
+                </div>
+            </div>
 
             <div class="action-btn-row">
-                <button id="startTrainBtn" class="btn-main" disabled>
-                    <span>⚡ ประมวลผลสกัดสีและฝึกระบบ AI (Train Dataset)</span>
+                <button id="startTrainPairBtn" class="btn-main" disabled>
+                    <span>⚡ ประมวลผลผลต่างสี (ΔColor) และฝึกระบบ AI</span>
                 </button>
             </div>
 
-            <!-- ข้อมูลสรุปฐานข้อมูลที่ถูกฝึกแล้ว -->
+            <!-- สรุปสถิติฐานข้อมูลที่ฝึกไปแล้ว -->
             <div class="dataset-stats-grid">
                 <div class="stat-card">
-                    <span class="stat-title">ฐานข้อมูล: เปลี่ยนน้อย</span>
-                    <span id="countLow" class="stat-num text-purple">0 ภาพ</span>
+                    <span class="stat-title">ข้อมูล: เปลี่ยนน้อย (Low)</span>
+                    <span id="countLow" class="stat-num text-purple">0 คู่ภาพ</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-title">ฐานข้อมูล: เปลี่ยนปานกลาง</span>
-                    <span id="countMedium" class="stat-num text-blue">0 ภาพ</span>
+                    <span class="stat-title">ข้อมูล: เปลี่ยนปานกลาง (Med)</span>
+                    <span id="countMedium" class="stat-num text-blue">0 คู่ภาพ</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-title">ฐานข้อมูล: เปลี่ยนมาก</span>
-                    <span id="countHigh" class="stat-num text-green">0 ภาพ</span>
+                    <span class="stat-title">ข้อมูล: เปลี่ยนมาก (High)</span>
+                    <span id="countHigh" class="stat-num text-green">0 คู่ภาพ</span>
                 </div>
             </div>
         </section>
 
-        <!-- หน้าที่ 2: นำเข้าภาพหลายรูปเพื่อทดสอบและประเมินระบบ -->
+        <!-- หน้าที่ 2: ทดสอบภาพฉลากใหม่หลายรูปและเปรียบเทียบผล -->
         <section id="testSection" class="card glass-card hover-glow" style="display: none;">
             <div class="card-title-row">
                 <div class="icon-badge">🎯</div>
                 <div>
-                    <h3>2. ทดสอบภาพฉลากใหม่ที่ไม่เคยใช้ฝึก (Batch Testing & Validation)</h3>
-                    <p class="card-desc">ป้อนรูปภาพฉลากชุดใหม่หลายรูป ให้ระบบจำแนกระดับสี พร้อมเปรียบเทียบความถูกต้อง</p>
+                    <h3>2. ทดสอบและจำแนกระดับสีของฉลากภาพใหม่ (Batch Image Testing)</h3>
+                    <p class="card-desc">ป้อนรูปฉลากใหม่ที่ไม่เคยใช้ฝึก ให้ AI ประเมินระดับการเปลี่ยนแปลงสีและตรวจเช็คความถูกต้อง</p>
                 </div>
             </div>
 
-            <div class="control-panel-batch">
+            <div class="control-panel-grid">
                 <div class="input-group">
-                    <label>ระดับจริงของชุดภาพทดสอบนี้ (เพื่อคำนวณความถูกต้อง):</label>
+                    <label>สูตรที่ใช้กับชุดภาพทดสอบนี้:</label>
+                    <select id="testFormula" class="interactive-input">
+                        <option value="formula1">สูตร 1: น้ำกะหล่ำปลีม่วงล้วน</option>
+                        <option value="formula2">สูตร 2: น้ำสะอาด + น้ำกะหล่ำปลีม่วง</option>
+                        <option value="formula3">สูตร 3: เบกกิ้งโซดา + น้ำกะหล่ำปลีม่วง</option>
+                        <option value="formula4">สูตร 4: น้ำส้มสายชู + น้ำกะหล่ำปลีม่วง</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>ระดับการเปลี่ยนสีจริงจากการทดลอง (เพื่อประเมินความแม่นยำ):</label>
                     <select id="testActualClass" class="interactive-input">
                         <option value="low">ระดับ 1: เปลี่ยนน้อย</option>
                         <option value="medium">ระดับ 2: เปลี่ยนปานกลาง</option>
                         <option value="high">ระดับ 3: เปลี่ยนมาก</option>
                     </select>
                 </div>
-                <div class="input-group">
-                    <label>เลือกภาพทดสอบหลายรูป (Unseen Test Images):</label>
-                    <label class="btn-upload btn-shimmer">
-                        <span>🧪 อัปโหลดภาพทดสอบหลายรูป</span>
-                        <input type="file" id="testImagesInput" accept="image/*" multiple>
-                    </label>
-                </div>
+            </div>
+
+            <div class="single-upload-wrapper">
+                <label class="btn-upload btn-shimmer">
+                    <span>📁 เลือกภาพฉลากทดสอบหลายรูป (Multiple Test Images)</span>
+                    <input type="file" id="testImagesInput" accept="image/*" multiple>
+                </label>
             </div>
 
             <div id="testPreviewArea" class="batch-preview-grid" style="display: none;"></div>
 
             <div class="action-btn-row">
                 <button id="startPredictBtn" class="btn-main" disabled>
-                    <span>🔍 ให้ AI จำแนกภาพทั้งหมดและเปรียบเทียบผล (Batch Classify)</span>
+                    <span>🔍 ให้ AI จำแนกระดับสีและประเมินความถูกต้อง (Classify Batch)</span>
                 </button>
             </div>
 
-            <!-- การแสดงผลสรุปความถูกต้องภาพรวม (Accuracy Score) -->
+            <!-- การ์ดแสดงผลสรุปความถูกต้อง -->
             <div id="evaluationSummaryCard" class="eval-card" style="display: none;">
                 <div class="eval-header">
                     <div>
-                        <h4>ผลการประเมินประสิทธิภาพของระบบ AI</h4>
-                        <p class="card-desc">เปรียบเทียบผลการทำนายกับระดับสีที่กำหนดจากการทดลองจริง</p>
+                        <h4>ผลการประเมินความถูกต้องของระบบ AI (Accuracy)</h4>
+                        <p class="card-desc">เปรียบเทียบผลการทำนายของโมเดลเทียบกับระดับสีที่สังเกตจากการทดลองจริง</p>
                     </div>
                     <div class="accuracy-badge">
-                        <span class="acc-title">ความถูกต้อง (Accuracy)</span>
+                        <span class="acc-title">ความแม่นยำ</span>
                         <span id="accuracyPercent" class="acc-val">0%</span>
                     </div>
                 </div>
@@ -152,7 +182,7 @@
                         <strong id="totalTested">0 ภาพ</strong>
                     </div>
                     <div class="mini-metric">
-                        <span>ทำนายตรงกับผลจริง:</span>
+                        <span>ทำนายถูกต้อง:</span>
                         <strong id="correctPredicted" class="text-green">0 ภาพ</strong>
                     </div>
                     <div class="mini-metric">
@@ -162,18 +192,19 @@
                 </div>
             </div>
 
-            <!-- ตารางแสดงรายละเอียดการทำนายทีละภาพ -->
+            <!-- ตารางแสดงรายละเอียดการจำแนกรายภาพ -->
             <div id="testTableWrapper" class="table-responsive-wrapper" style="display: none; margin-top: 20px;">
                 <table class="data-record-table">
                     <thead>
                         <tr>
                             <th>ลำดับ</th>
                             <th>ตัวอย่างภาพ</th>
+                            <th>สูตรทดสอบ</th>
                             <th>สีเฉลี่ย (RGB)</th>
-                            <th>Hue (องศา)</th>
-                            <th>ระดับจริง (Ground Truth)</th>
-                            <th>AI ทำนาย (Prediction)</th>
-                            <th>ผลการตรวจสอบ</th>
+                            <th>ค่า Hue</th>
+                            <th>ผลจริงจากการทดลอง</th>
+                            <th>AI จำแนกได้</th>
+                            <th>การประเมิน</th>
                         </tr>
                     </thead>
                     <tbody id="testResultsTableBody"></tbody>
@@ -183,11 +214,10 @@
 
     </main>
 
-    <!-- Canvas สำหรับประมวลผลดึงพิกเซลภาพเบื้องหลัง -->
     <canvas id="hiddenCanvas" style="display: none;"></canvas>
 
     <footer>
-        <p>&copy; 2026 SmartFresh Label: การพัฒนาฉลากบรรจุภัณฑ์อัจฉริยะร่วมกับ AI จำแนกระดับสี</p>
+        <p>&copy; 2026 SmartFresh Label: การพัฒนาฉลากบรรจุภัณฑ์อัจฉริยะจากสารสกัดกะหล่ำปลีม่วงร่วมกับ AI</p>
     </footer>
 
     <script src="script.js"></script>
