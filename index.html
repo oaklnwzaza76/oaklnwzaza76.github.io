@@ -1,93 +1,83 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banana Film AI Innovation - ระบบวิเคราะห์ฟิล์มเคลือบอาหารอัจฉริยะ</title>
+    <title>SmartFresh Label - AI ระบบตรวจวัดสภาวะกรด-ด่างจากฉลากกะหล่ำปลีม่วง</title>
     <link rel="stylesheet" href="style.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-    <!-- ส่วนตกแต่งพื้นหลัง -->
+    <!-- พื้นหลังอนุภาคและแสงนีออนเคลื่อนไหว -->
     <div class="bg-particles" id="particlesContainer">
-        <span class="particle p1">🍌</span>
+        <span class="particle p1">🥬</span>
         <span class="particle p2">✨</span>
-        <span class="particle p3">🍌</span>
-        <span class="particle p4">⚡</span>
-        <span class="particle p5">🍌</span>
+        <span class="particle p3">🧪</span>
+        <span class="particle p4">💜</span>
+        <span class="particle p5">🥬</span>
+        <span class="particle p6">⚗️</span>
+        <span class="particle p7">✨</span>
     </div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
 
-    <!-- ส่วนหัวของเว็บไซต์ -->
-    <header data-aos="zoom-in" data-aos-duration="1000">
+    <!-- ส่วนหัวเว็บไซต์ -->
+    <header data-aos="fade-down" data-aos-duration="1100">
         <div class="container header-content">
-            <div class="badge-tech">
-                <span class="banana-icon-spin">🍌</span> AI Bio-Polymer Innovation 2026
+            <div class="badge-tech animate-pulse-badge">
+                <span class="cabbage-icon-spin">🥬</span> โครงงาน SmartFresh Label 2026
             </div>
-            <h1 class="main-title">การพัฒนาฟิล์มเคลือบอาหารจากวัสดุเหลือใช้ทางการเกษตร</h1>
-            <p class="sub-title">ร่วมกับการวิเคราะห์การเปลี่ยนแปลงสีด้วยปัญญาประดิษฐ์ (Colorimetrical AI Analysis)</p>
+            <h1 class="main-title text-gradient">ระบบ AI วิเคราะห์สีกระดาษฉลากกะหล่ำปลีม่วง</h1>
+            <p class="sub-title">ตรวจวัดการเปลี่ยนสีของสารแอนโทไซยานินเพื่อประเมินสภาวะกรด–ด่างเบื้องต้น</p>
         </div>
     </header>
 
-    <!-- ส่วนเนื้อหาหลัก -->
+    <!-- คอนเทนเนอร์หลัก -->
     <main class="container">
         
-        <!-- ส่วนอัปโหลดรูปภาพและเลือกข้อมูล -->
-        <section class="card glass-card upload-section" data-aos="fade-up" data-aos-duration="900">
+        <!-- ส่วนอัปโหลดภาพฉลาก -->
+        <section class="card glass-card hover-glow" data-aos="fade-up" data-aos-duration="900">
             <div class="card-title-row">
-                <div class="icon-badge">🍌</div>
+                <div class="icon-badge icon-pop">📸</div>
                 <div>
-                    <h3>ระบบวิเคราะห์สีภาพถ่าย (AI Color Analyzer)</h3>
-                    <p class="card-desc">สกัดค่าสี RGB/HSV ผ่านกรอบสแกนอัจฉริยะและคำนวณประสิทธิภาพฟิล์ม</p>
+                    <h3>1. ลงรูปกระดาษฉลากที่ผ่านการทดลอง</h3>
+                    <p class="card-desc">อัปโหลดภาพถ่ายฉลากจริง (วางบนกระดาษขาว แสงสว่างคงที่)</p>
                 </div>
             </div>
             
             <div class="control-panel">
                 <div class="input-group">
-                    <label>เลือกสูตรฟิล์มที่ทดสอบ:</label>
-                    <select id="filmFormula">
-                        <option value="formula1">สูตร 1: ไม่เคลือบแผ่นฟิล์ม</option>
-                        <option value="formula2">สูตร 2: กลีเซอรอล + แป้งข้าวโพด + น้ำ + ผงกล้วย 10%</option>
-                        <option value="formula3">สูตร 3: กลีเซอรอล + แป้งข้าวโพด + น้ำ + ผงกล้วย 20%</option>
-                        <option value="formula4">สูตร 4: กลีเซอรอล + แป้งข้าวโพด + น้ำ + ผงกล้วย 30%</option>
+                    <label>ระบุตัวอย่างสารที่ทดสอบ:</label>
+                    <select id="sampleType" class="interactive-input">
+                        <option value="น้ำเปล่า / ก่อนทดลอง">ภาพที่ 1: ฉลากก่อนทดลอง (กระดาษสีม่วงเดิม / น้ำเปล่า)</option>
+                        <option value="น้ำมะนาว">ภาพที่ 2: ฉลากจุ่มน้ำมะนาว (สภาวะกรด)</option>
+                        <option value="สบู่เจือจาง">ภาพที่ 3: ฉลากจุ่มสบู่เจือจาง (สภาวะด่าง)</option>
+                        <option value="น้ำประปา / น้ำตัวอย่าง">ภาพที่ 4: ฉลากจุ่มน้ำประปา / น้ำตัวอย่างอื่น ๆ</option>
                     </select>
                 </div>
-                <div class="input-group">
-                    <label>บันทึกผลของวันที่ (0-7):</label>
-                    <select id="testDay">
-                        <option value="0">Day 0 (วันเริ่มต้น)</option>
-                        <option value="1">Day 1</option>
-                        <option value="2">Day 2</option>
-                        <option value="3">Day 3</option>
-                        <option value="4">Day 4</option>
-                        <option value="5">Day 5</option>
-                        <option value="6">Day 6</option>
-                        <option value="7">Day 7</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>เลือกรูปถ่ายตัวอย่าง:</label>
-                    <label class="btn-upload">
-                        📸 ถ่ายภาพ / เลือกรูปในเครื่อง
+                <div class="input-group full-width-mobile">
+                    <label>เลือกไฟล์ภาพถ่าย:</label>
+                    <label class="btn-upload btn-shimmer">
+                        <span class="upload-icon-bounce">📁</span> ถ่ายภาพ / เลือกรูปกระดาษฉลาก
                         <input type="file" id="imageInput" accept="image/*">
                     </label>
                 </div>
             </div>
 
-            <!-- ส่วนแถบปรับแต่งกรอบ ROI -->
+            <!-- กล่องปรับแต่งกรอบตรวจจับ (ROI) -->
             <div id="roiControls" class="roi-controls-panel" style="display: none;">
                 <div class="roi-hint">
-                    💡 <strong>วิธีเลือกพื้นที่:</strong> ลากย้ายกรอบสีทองนีออนไปตำแหน่งที่ต้องการ หรือปรับขนาดกรอบด้านล่าง
+                    💡 <strong>คำแนะนำ:</strong> ลากกรอบสแกนสีม่วงนีออนไปวางบนเนื้อกระดาษฉลากเพื่อตัดพื้นหลัง
                 </div>
                 <div class="roi-slider-group">
                     <label for="roiSizeSlider">ขนาดกรอบสแกน: <span id="roiSizeVal">80</span>px</label>
@@ -97,190 +87,118 @@
                 </div>
             </div>
 
+            <!-- พื้นที่แสดงภาพและเป้าสแกน -->
             <div class="preview-container">
                 <div class="image-box" id="imageBox">
                     <div class="empty-state" id="emptyStateText">
-                        <div class="banana-radar">
-                            <span class="radar-center-icon">🍌</span>
+                        <div class="cabbage-radar-pulse">
+                            <span class="radar-center-icon">🥬</span>
                         </div>
-                        <p>ยังไม่มีรูปภาพ กรุณาถ่ายภาพหรือเลือกรูปตัวอย่าง</p>
+                        <p>ยังไม่มีรูปภาพ กรุณาถ่ายภาพหรือเลือกรูปกระดาษฉลาก</p>
                     </div>
-                    <img id="previewImage" alt="ตัวอย่างรูปภาพจะแสดงที่นี่">
+                    <img id="previewImage" alt="ตัวอย่างฉลากจะแสดงที่นี่">
                     <div id="roiBox" class="roi-overlay">
                         <div class="laser-scanner"></div>
-                        <span class="roi-tag">🍌 AI TARGET (ลากย้ายได้)</span>
+                        <span class="roi-tag">เป้าวิเคราะห์ AI</span>
                     </div>
                 </div>
                 <canvas id="processCanvas" style="display: none;"></canvas>
             </div>
 
-            <button id="analyzeBtn" class="btn-main glow-yellow-btn" disabled>
-                <span>⚡ วิเคราะห์และบันทึกลงกราฟ (Analyze & Record)</span>
+            <button id="analyzeBtn" class="btn-main btn-glow-anim" disabled>
+                <span class="btn-text-content">🔍 วิเคราะห์สีและประเมินสภาวะ (Analyze)</span>
             </button>
         </section>
 
-        <!-- ส่วนแสดงผลลัพธ์การคำนวณ -->
-        <section id="resultSection" class="card glass-card result-section" style="display: none;">
-            <div class="card-title-row">
-                <div class="icon-badge">✨</div>
-                <div>
-                    <h3>ผลการสกัดค่าสีและการแปลผลทางวิทยาศาสตร์</h3>
-                    <p class="card-desc">วิเคราะห์โครงสร้างสีเฉลี่ยในพิกัด ROI</p>
-                </div>
-            </div>
-            
-            <div class="color-display-row">
-                <div class="color-box-wrap">
-                    <p>สีเฉลี่ยที่ตรวจพบ (ROI):</p>
-                    <div id="detectedColorBox" class="color-swatch"></div>
-                </div>
-                <div class="color-metrics">
-                    <div class="metric-card">
-                        <h4>ค่า RGB เฉลี่ย</h4>
-                        <p id="rgbText">R: - | G: - | B: -</p>
+        <!-- ส่วนแสดงผลการวิเคราะห์ AI -->
+        <section id="resultSection" class="card glass-card result-enter" style="display: none;">
+            <div class="result-header-row">
+                <div class="card-title-row" style="margin-bottom: 0;">
+                    <div class="icon-badge icon-pop">✨</div>
+                    <div>
+                        <h3>ผลการวิเคราะห์ AI</h3>
+                        <p class="card-desc">สกัดสีและจำแนกประเภทสภาวะจากกระดาษฉลาก</p>
                     </div>
-                    <div class="metric-card">
-                        <h4>ค่า HSV (Hue ที่บันทึก)</h4>
-                        <p id="hsvText">H: -° | S: -% | V: -%</p>
+                </div>
+                <span class="badge-status pulse-status">● สถานะ: วิเคราะห์สำเร็จ</span>
+            </div>
+
+            <!-- กล่องการ์ดแสดงผลลัพธ์หลัก -->
+            <div class="ai-result-card glow-border-card">
+                <div class="detected-color-section">
+                    <div id="detectedColorBox" class="color-swatch-box swatch-bounce"></div>
+                    <div class="detected-color-info">
+                        <span class="info-subtitle">สีที่ตรวจพบ</span>
+                        <h2 id="colorNameText" class="info-title">ม่วงอมชมพู</h2>
+                        <span id="rgbHsvDetails" class="info-metrics">R: - | G: - | B: - | H: -°</span>
+                    </div>
+                </div>
+
+                <div class="result-divider"></div>
+
+                <div class="result-fields-list">
+                    <div class="field-item">
+                        <span class="field-label">ประเภทสภาวะ</span>
+                        <span id="conditionState" class="field-badge scale-badge">-</span>
+                    </div>
+                    <div class="field-item">
+                        <span class="field-label">ค่า pH (ประเมินเบื้องต้น)</span>
+                        <span id="phEstimateText" class="field-value text-glow">-</span>
+                    </div>
+                    <div class="field-item">
+                        <span class="field-label">ความมั่นใจของระบบ</span>
+                        <span id="confidenceText" class="field-value">-</span>
+                    </div>
+                    <div class="field-item full-row">
+                        <span class="field-label">คำแนะนำ</span>
+                        <span id="adviceText" class="field-note">-</span>
                     </div>
                 </div>
             </div>
 
-            <div class="evaluation-box">
-                <h4>📌 สถานะการบันทึกข้อมูล:</h4>
-                <p id="evaluationText">-</p>
+            <p class="disclaimer-note">
+                * หมายเหตุ: เป็นการประเมินค่า pH เบื้องต้นจากสีของสารสกัดธรรมชาติ ไม่ใช่เครื่องวัดทางห้องปฏิบัติการที่มีความแม่นยำสูง
+            </p>
+
+            <!-- ปุ่มทางเลือกที่จุดสิ้นสุด -->
+            <div class="finish-action-row">
+                <button id="saveHistoryBtn" class="btn-action-primary btn-ripple">💾 บันทึกผลลงตาราง</button>
+                <button id="newTestBtn" class="btn-action-secondary btn-scale-hover">🔄 เริ่มทดลองตัวอย่างใหม่</button>
             </div>
         </section>
 
-        <!-- ส่วนกราฟเปรียบเทียบมาตรฐานและตารางบันทึกผล -->
-        <section class="card glass-card chart-section" data-aos="fade-up" data-aos-duration="900">
-            <div class="chart-header">
-                <div>
-                    <h3>กราฟและตารางบันทึกผลการทดลองจริง (Day 0 - Day 7)</h3>
-                    <p class="card-desc">เปรียบเทียบการเปลี่ยนแปลงค่า Hue ตลอดอายุ 7 วัน</p>
-                </div>
-                <div class="chart-actions">
-                    <button id="resetDataBtn" class="btn-action btn-danger">🔄 ล้างข้อมูล</button>
-                    <button id="downloadChartImgBtn" class="btn-action">💾 บันทึกรูปภาพ</button>
-                    <button id="downloadChartCsvBtn" class="btn-action">📊 บันทึก CSV</button>
-                </div>
-            </div>
-
-            <!-- แถบระบุชื่อสูตรแบบ Custom Legend -->
-            <div class="custom-legend" id="customLegend">
-                <div class="legend-item" data-index="0">
-                    <span class="legend-dot" style="background-color: #e53935;"></span>
-                    <span class="legend-text">สูตร 1: ไม่เคลือบ</span>
-                </div>
-                <div class="legend-item" data-index="1">
-                    <span class="legend-dot" style="background-color: #fb8c00;"></span>
-                    <span class="legend-text">สูตร 2: ผงกล้วย 10%</span>
-                </div>
-                <div class="legend-item" data-index="2">
-                    <span class="legend-dot" style="background-color: #43a047;"></span>
-                    <span class="legend-text">สูตร 3: ผงกล้วย 20%</span>
-                </div>
-                <div class="legend-item" data-index="3">
-                    <span class="legend-dot" style="background-color: #1e88e5;"></span>
-                    <span class="legend-text">สูตร 4: ผงกล้วย 30%</span>
-                </div>
-            </div>
-
-            <!-- กล่องกราฟที่เลื่อนซ้ายขวาได้เพื่อป้องกันตัวอักษรทับกันบนมือถือ -->
-            <div class="chart-scroll-wrapper">
-                <div class="chart-canvas-container">
-                    <canvas id="resultsChart"></canvas>
-                </div>
-            </div>
-
-            <!-- ส่วนตารางแสดงค่า Hue รายวัน -->
-            <div class="daily-table-container">
-                <h4 class="table-section-title">📋 ตารางบันทึกค่า Hue รายวัน (องศา)</h4>
-                <div class="table-responsive-wrapper">
-                    <table class="data-record-table">
-                        <thead>
-                            <tr>
-                                <th>สูตรการทดลอง</th>
-                                <th>Day 0</th>
-                                <th>Day 1</th>
-                                <th>Day 2</th>
-                                <th>Day 3</th>
-                                <th>Day 4</th>
-                                <th>Day 5</th>
-                                <th>Day 6</th>
-                                <th>Day 7</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dailyDataTableBody">
-                            <tr>
-                                <td><span class="table-dot" style="background:#e53935;"></span> สูตร 1: ไม่เคลือบ</td>
-                                <td id="cell-formula1-0">-</td>
-                                <td id="cell-formula1-1">-</td>
-                                <td id="cell-formula1-2">-</td>
-                                <td id="cell-formula1-3">-</td>
-                                <td id="cell-formula1-4">-</td>
-                                <td id="cell-formula1-5">-</td>
-                                <td id="cell-formula1-6">-</td>
-                                <td id="cell-formula1-7">-</td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-dot" style="background:#fb8c00;"></span> สูตร 2: ผงกล้วย 10%</td>
-                                <td id="cell-formula2-0">-</td>
-                                <td id="cell-formula2-1">-</td>
-                                <td id="cell-formula2-2">-</td>
-                                <td id="cell-formula2-3">-</td>
-                                <td id="cell-formula2-4">-</td>
-                                <td id="cell-formula2-5">-</td>
-                                <td id="cell-formula2-6">-</td>
-                                <td id="cell-formula2-7">-</td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-dot" style="background:#43a047;"></span> สูตร 3: ผงกล้วย 20%</td>
-                                <td id="cell-formula3-0">-</td>
-                                <td id="cell-formula3-1">-</td>
-                                <td id="cell-formula3-2">-</td>
-                                <td id="cell-formula3-3">-</td>
-                                <td id="cell-formula3-4">-</td>
-                                <td id="cell-formula3-5">-</td>
-                                <td id="cell-formula3-6">-</td>
-                                <td id="cell-formula3-7">-</td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-dot" style="background:#1e88e5;"></span> สูตร 4: ผงกล้วย 30%</td>
-                                <td id="cell-formula4-0">-</td>
-                                <td id="cell-formula4-1">-</td>
-                                <td id="cell-formula4-2">-</td>
-                                <td id="cell-formula4-3">-</td>
-                                <td id="cell-formula4-4">-</td>
-                                <td id="cell-formula4-5">-</td>
-                                <td id="cell-formula4-6">-</td>
-                                <td id="cell-formula4-7">-</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- ส่วนสรุปผลการประเมินสูตรที่ดีที่สุด -->
-        <section id="summarySection" class="card glass-card summary-section" data-aos="fade-up" data-aos-duration="900">
+        <!-- ส่วนตารางประวัติผลการทดลอง -->
+        <section id="historySection" class="card glass-card hover-glow" style="display: none;">
             <div class="card-title-row">
-                <div class="icon-badge">🏆</div>
+                <div class="icon-badge icon-pop">📋</div>
                 <div>
-                    <h3>สรุปผลการประเมินประสิทธิภาพฟิล์ม</h3>
-                    <p class="card-desc">ระบบ AI คำนวณสูตรที่มีการคงสภาพสีได้ดีที่สุดโดยอัตโนมัติ</p>
+                    <h3>ประวัติการวิเคราะห์ฉลากตัวอย่าง</h3>
+                    <p class="card-desc">ตารางรวบรวมตัวอย่างที่ผ่านการทดสอบ</p>
                 </div>
             </div>
-            <div id="summaryContent">
-                <p class="summary-placeholder">กำลังรอข้อมูลบันทึกผลการทดลองจนถึง Day 7...</p>
+
+            <div class="table-responsive-wrapper">
+                <table class="data-record-table">
+                    <thead>
+                        <tr>
+                            <th>ลำดับ</th>
+                            <th>ตัวอย่างสาร</th>
+                            <th>เฉดสีที่ตรวจพบ</th>
+                            <th>ชื่อสี</th>
+                            <th>สภาวะ</th>
+                            <th>pH ประเมิน</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody"></tbody>
+                </table>
             </div>
         </section>
 
     </main>
 
-    <!-- ส่วนท้ายของเว็บไซต์ -->
+    <!-- ท้ายเว็บ -->
     <footer>
-        <p>&copy; 2026 โครงการพัฒนาฟิล์มเคลือบอาหารจากวัสดุเหลือใช้ทางการเกษตร | Bio-Yellow Innovation</p>
+        <p>&copy; 2026 SmartFresh Label: การพัฒนาฉลากบรรจุภัณฑ์อัจฉริยะจากสารสีธรรมชาติร่วมกับ AI</p>
     </footer>
 
     <script src="script.js"></script>
