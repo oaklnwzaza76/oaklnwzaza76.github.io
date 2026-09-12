@@ -1,12 +1,44 @@
-// script.js
-
+// สัดส่วนเริ่มต้นการทำงานของเอฟเฟกต์ภาพและแอนิเมชัน
 document.addEventListener("DOMContentLoaded", function() {
     if (typeof AOS !== 'undefined') {
         AOS.init({ once: true, duration: 800 });
     }
+    initInteractiveBg();
+    init3DTilt();
 });
 
-// เมนูสลับแท็บ
+// สัดส่วนการทำงานของพื้นหลังโต้ตอบกับตำแหน่งเมาส์
+function initInteractiveBg() {
+    const orb1 = document.querySelector('.orb-1');
+    const orb2 = document.querySelector('.orb-2');
+    
+    window.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 60;
+        const y = (e.clientY / window.innerHeight - 0.5) * 60;
+        if (orb1) orb1.style.transform = `translate(${x}px, ${y}px)`;
+        if (orb2) orb2.style.transform = `translate(${-x}px, ${-y}px)`;
+    });
+}
+
+// สัดส่วนการทำงานของการ์ดแบบ 3D Tilt
+function init3DTilt() {
+    const cards = document.querySelectorAll('.tilt-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            const tiltX = (y / (rect.height / 2)) * -3.5;
+            const tiltY = (x / (rect.width / 2)) * 3.5;
+            card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-3px)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+        });
+    });
+}
+
+// สัดส่วนการควบคุมแท็บสลับหน้าจอ
 const tabTrainBtn = document.getElementById('tabTrainBtn');
 const tabTestBtn = document.getElementById('tabTestBtn');
 const trainSection = document.getElementById('trainSection');
@@ -26,11 +58,11 @@ tabTestBtn.addEventListener('click', () => {
     trainSection.style.display = 'none';
 });
 
-// การจัดการสีและ Canvas
+// สัดส่วนการเตรียมข้อมูลและแคนวาสสำหรับคำนวณสี
 const hiddenCanvas = document.getElementById('hiddenCanvas');
 const ctx = hiddenCanvas.getContext('2d');
 
-let trainingDataset = []; // เก็บ { formula, beforeColor, afterColor, deltaHue, deltaRGB, label }
+let trainingDataset = [];
 let tempBeforeFiles = [];
 let tempAfterFiles = [];
 let tempTestFiles = [];
@@ -43,12 +75,12 @@ const formulaNames = {
 };
 
 const classNames = {
-    low: 'เปลี่ยนน้อย',
-    medium: 'เปลี่ยนปานกลาง',
-    high: 'เปลี่ยนมาก'
+    low: 'เปลี่ยนน้อย (Low)',
+    medium: 'เปลี่ยนปานกลาง (Med)',
+    high: 'เปลี่ยนมาก (High)'
 };
 
-// เครื่องมือคำนวณสี RGB -> HSV
+// สัดส่วนฟังก์ชันคณิตศาสตร์แปลงค่าสี RGB เป็น HSV
 function rgbToHsv(r, g, b) {
     r /= 255; g /= 255; b /= 255;
     const max = Math.max(r, g, b);
@@ -69,7 +101,7 @@ function rgbToHsv(r, g, b) {
     return { h, s: Math.round(s * 100), v: Math.round(v * 100) };
 }
 
-// สกัดสีเฉลี่ยจากองค์ประกอบภาพ
+// สัดส่วนการสกัดสีเฉลี่ยจากกึ่งกลางภาพฉลาก (ROI 50%)
 function extractColorFromImage(imgElement) {
     hiddenCanvas.width = imgElement.naturalWidth || imgElement.width;
     hiddenCanvas.height = imgElement.naturalHeight || imgElement.height;
@@ -98,7 +130,7 @@ function extractColorFromImage(imgElement) {
     return { r, g, b, ...hsv };
 }
 
-// คำนวณความแตกต่างระหว่าง 2 สี (Delta Color)
+// สัดส่วนการคำนวณเวกเตอร์ความแตกต่างระหว่างสี
 function calculateColorDifference(c1, c2) {
     let diffHue = Math.abs(c1.h - c2.h);
     if (diffHue > 180) diffHue = 360 - diffHue;
@@ -107,9 +139,7 @@ function calculateColorDifference(c1, c2) {
     return { diffHue, diffRGB };
 }
 
-// ----------------------------------------------------
-// 1. นำเข้าภาพฝึก AI (ก่อนและหลังทดลอง)
-// ----------------------------------------------------
+// สัดส่วนการจัดการนำเข้าข้อมูลภาพฝึก AI
 const trainFormula = document.getElementById('trainFormula');
 const trainGroundTruth = document.getElementById('trainGroundTruth');
 const trainBeforeInput = document.getElementById('trainBeforeInput');
@@ -138,7 +168,7 @@ function checkTrainReady() {
     if (tempBeforeFiles.length > 0 && tempAfterFiles.length > 0) {
         startTrainPairBtn.disabled = false;
         const pairCount = Math.min(tempBeforeFiles.length, tempAfterFiles.length);
-        startTrainPairBtn.textContent = `⚡ สกัดผลต่างสี (ΔColor) และฝึก AI (${pairCount} คู่ภาพ)`;
+        startTrainPairBtn.querySelector('.btn-cta-text').textContent = `⚡ สกัดผลต่างสี (ΔColor) และฝึก AI (${pairCount} คู่ภาพ)`;
     } else {
         startTrainPairBtn.disabled = true;
     }
@@ -150,10 +180,10 @@ function renderThumbnails(files, container) {
         const reader = new FileReader();
         reader.onload = function(evt) {
             const item = document.createElement('div');
-            item.className = 'batch-thumb-item';
+            item.className = 'cyber-thumb-item';
             item.innerHTML = `
                 <img src="${evt.target.result}" alt="thumb">
-                <span class="thumb-badge">#${idx + 1}</span>
+                <span class="thumb-idx">#${idx + 1}</span>
             `;
             container.appendChild(item);
         };
@@ -175,7 +205,7 @@ function loadImageAsync(file) {
 
 startTrainPairBtn.addEventListener('click', async function() {
     startTrainPairBtn.disabled = true;
-    startTrainPairBtn.textContent = '⏳ กำลังประมวลผลจับคู่สีและบันทึกเข้าฐานข้อมูล...';
+    startTrainPairBtn.querySelector('.btn-cta-text').textContent = '⏳ กำลังคำนวณเวกเตอร์พิกเซลและฝึก AI...';
 
     const formula = trainFormula.value;
     const label = trainGroundTruth.value;
@@ -208,14 +238,19 @@ startTrainPairBtn.addEventListener('click', async function() {
     tempBeforeFiles = [];
     tempAfterFiles = [];
 
-    startTrainPairBtn.textContent = '✅ บันทึกคู่ภาพเข้าฐานข้อมูลฝึกสอนสำเร็จ!';
+    startTrainPairBtn.querySelector('.btn-cta-text').textContent = '✅ บันทึกคู่ภาพเข้าสู่โครงข่ายสำเร็จ!';
     if (typeof confetti === 'function') {
-        confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
+        confetti({
+            particleCount: 85,
+            spread: 80,
+            origin: { y: 0.7 },
+            colors: ['#d500f9', '#00e5ff', '#00e676']
+        });
     }
 
     setTimeout(() => {
-        startTrainPairBtn.textContent = '⚡ ประมวลผลผลต่างสี (ΔColor) และฝึกระบบ AI';
-    }, 2000);
+        startTrainPairBtn.querySelector('.btn-cta-text').textContent = '⚡ สกัดเวกเตอร์ผลต่างสี (ΔColor) และฝึก AI';
+    }, 2200);
 });
 
 function updateStatsDisplay() {
@@ -223,28 +258,23 @@ function updateStatsDisplay() {
     const cMed = trainingDataset.filter(d => d.label === 'medium').length;
     const cHigh = trainingDataset.filter(d => d.label === 'high').length;
 
-    countLow.textContent = `${cLow} คู่ภาพ`;
-    countMedium.textContent = `${cMed} คู่ภาพ`;
-    countHigh.textContent = `${cHigh} คู่ภาพ`;
+    countLow.textContent = `${cLow} คู่`;
+    countMedium.textContent = `${cMed} คู่`;
+    countHigh.textContent = `${cHigh} คู่`;
 }
 
-// ----------------------------------------------------
-// 2. ระบบ AI จำแนกภาพใหม่ (k-NN Classifier)
-// ----------------------------------------------------
+// สัดส่วนโมเดลการเรียนรู้ของเครื่อง k-NN
 function predictLabelKNN(testColor, testFormula, k = 3) {
-    // กรองชุดข้อมูลที่ตรงตามสูตรเพื่อความแม่นยำสูงขึ้น (หรือรวมทั้งหมดหากสูตรนั้นยังไม่มี)
     let candidates = trainingDataset.filter(d => d.formula === testFormula);
     if (candidates.length === 0) candidates = trainingDataset;
 
-    // หากยังไม่มีข้อมูลในฐาน ให้ใช้กฎมาตรฐานทางวิทยาศาสตร์ของกะหล่ำปลีม่วง
     if (candidates.length === 0) {
         const h = testColor.h;
-        if (h >= 240 && h <= 320) return 'low';       // คงสภาพสีม่วง
-        if (h >= 150 && h < 240) return 'medium';     // เริ่มเป็นน้ำเงิน/ฟ้า
-        return 'high';                                // เปลี่ยนเป็นเขียว หรือแดงชัดเจน
+        if (h >= 240 && h <= 320) return 'low';
+        if (h >= 150 && h < 240) return 'medium';
+        return 'high';
     }
 
-    // คำนวณระยะห่างสี (Euclidean Distance) กับชุดภาพหลังทดลองในฐานข้อมูล
     const distances = candidates.map(item => {
         let diffH = Math.abs(testColor.h - item.afterColor.h);
         if (diffH > 180) diffH = 360 - diffH;
@@ -253,7 +283,7 @@ function predictLabelKNN(testColor, testFormula, k = 3) {
         const diffG = testColor.g - item.afterColor.g;
         const diffB = testColor.b - item.afterColor.b;
 
-        const dist = Math.sqrt((diffH * 2) ** 2 + diffR ** 2 + diffG ** 2 + diffB ** 2);
+        const dist = Math.sqrt((diffH * 2.2) ** 2 + diffR ** 2 + diffG ** 2 + diffB ** 2);
         return { label: item.label, dist };
     });
 
@@ -266,9 +296,7 @@ function predictLabelKNN(testColor, testFormula, k = 3) {
     return Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? a : b);
 }
 
-// ----------------------------------------------------
-// 3. ทดสอบภาพฉลากใหม่หลายรูป & ประเมินความถูกต้อง
-// ----------------------------------------------------
+// สัดส่วนการทดสอบชุดภาพใหม่และการคำนวณความถูกต้อง
 const testFormula = document.getElementById('testFormula');
 const testActualClass = document.getElementById('testActualClass');
 const testImagesInput = document.getElementById('testImagesInput');
@@ -277,6 +305,7 @@ const startPredictBtn = document.getElementById('startPredictBtn');
 
 const evaluationSummaryCard = document.getElementById('evaluationSummaryCard');
 const accuracyPercent = document.getElementById('accuracyPercent');
+const accuracyCircleProgress = document.getElementById('accuracyCircleProgress');
 const totalTested = document.getElementById('totalTested');
 const correctPredicted = document.getElementById('correctPredicted');
 const incorrectPredicted = document.getElementById('incorrectPredicted');
@@ -290,13 +319,13 @@ testImagesInput.addEventListener('change', function(e) {
         testPreviewArea.style.display = 'grid';
         renderThumbnails(tempTestFiles, testPreviewArea);
         startPredictBtn.disabled = false;
-        startPredictBtn.textContent = `🔍 ให้ AI จำแนกภาพชุดนี้ (${tempTestFiles.length} ภาพ)`;
+        startPredictBtn.querySelector('.btn-cta-text').textContent = `🔍 ให้ AI จำแนกภาพชุดนี้ (${tempTestFiles.length} ภาพ)`;
     }
 });
 
 startPredictBtn.addEventListener('click', async function() {
     startPredictBtn.disabled = true;
-    startPredictBtn.textContent = '⏳ AI กำลังสกัดค่าสีและจำแนกระดับการเปลี่ยนแปลง...';
+    startPredictBtn.querySelector('.btn-cta-text').textContent = '⏳ AI กำลังสแกนโครงสร้างสีและจำแนกข้อมูล...';
 
     const formula = testFormula.value;
     const actual = testActualClass.value;
@@ -320,36 +349,37 @@ startPredictBtn.addEventListener('click', async function() {
         });
     }
 
-    // แสดงรายละเอียดรายภาพในตาราง
     results.forEach(res => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td><strong>#${res.index}</strong></td>
-            <td><img src="${res.src}" class="result-thumb" alt="test"></td>
-            <td>${res.formula}</td>
-            <td>
-                <span class="table-color-dot" style="background: rgb(${res.color.r}, ${res.color.g}, ${res.color.b});"></span>
-                ${res.color.r}, ${res.color.g}, ${res.color.b}
+            <td data-label="ลำดับ"><strong>#${res.index}</strong></td>
+            <td data-label="รูปฉลาก"><img src="${res.src}" class="result-thumb" alt="test"></td>
+            <td data-label="สูตรทดสอบ">${res.formula}</td>
+            <td data-label="ค่าสี RGB">
+                <span class="table-color-dot" style="background: rgb(${res.color.r}, ${res.color.g}, ${res.color.b}); color: rgb(${res.color.r}, ${res.color.g}, ${res.color.b});"></span>
+                <strong>${res.color.r}, ${res.color.g}, ${res.color.b}</strong>
             </td>
-            <td>${res.color.h}°</td>
-            <td>${classNames[res.actual]}</td>
-            <td><strong>${classNames[res.predicted]}</strong></td>
-            <td>
+            <td data-label="ค่า Hue"><strong>${res.color.h}°</strong></td>
+            <td data-label="ระดับจริง">${classNames[res.actual]}</td>
+            <td data-label="AI จำแนกได้"><strong style="color: var(--accent-cyan);">${classNames[res.predicted]}</strong></td>
+            <td data-label="ผลการตรวจสอบ">
                 ${res.isCorrect 
-                    ? '<span class="match-badge">✓ ถูกต้อง</span>' 
-                    : '<span class="mismatch-badge">✗ คลาดเคลื่อน</span>'}
+                    ? '<span class="badge-match">✓ ถูกต้อง</span>' 
+                    : '<span class="badge-mismatch">✗ คลาดเคลื่อน</span>'}
             </td>
         `;
         testResultsTableBody.appendChild(tr);
     });
 
-    // คำนวณความแม่นยำของระบบ (Accuracy Score)
     const total = results.length;
     const correct = results.filter(r => r.isCorrect).length;
     const incorrect = total - correct;
     const acc = Math.round((correct / total) * 100);
 
-    accuracyPercent.textContent = `${acc}%`;
+    // อนิเมชันตัวเลข Accuracy
+    animateCounter(accuracyPercent, 0, acc, 1200);
+    accuracyCircleProgress.setAttribute('stroke-dasharray', `${acc}, 100`);
+
     totalTested.textContent = `${total} ภาพ`;
     correctPredicted.textContent = `${correct} ภาพ`;
     incorrectPredicted.textContent = `${incorrect} ภาพ`;
@@ -357,11 +387,30 @@ startPredictBtn.addEventListener('click', async function() {
     evaluationSummaryCard.style.display = 'block';
     testTableWrapper.style.display = 'block';
 
-    if (acc >= 75 && typeof confetti === 'function') {
-        confetti({ particleCount: 70, spread: 70, origin: { y: 0.6 } });
+    if (acc >= 70 && typeof confetti === 'function') {
+        confetti({
+            particleCount: 120,
+            spread: 90,
+            origin: { y: 0.6 },
+            colors: ['#00e5ff', '#d500f9', '#00e676', '#ffffff']
+        });
     }
 
     startPredictBtn.disabled = false;
-    startPredictBtn.textContent = '🔍 ให้ AI จำแนกระดับสีและประเมินความถูกต้อง (Classify Batch)';
+    startPredictBtn.querySelector('.btn-cta-text').textContent = '🔍 สั่งการ AI จำแนกระดับสีและประเมินผลลัพธ์';
     evaluationSummaryCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
+
+// สัดส่วนตัวเลขอเนิเมชันแบบนับขึ้น
+function animateCounter(element, start, end, duration) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        element.textContent = `${Math.floor(progress * (end - start) + start)}%`;
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        }
+    };
+    window.requestAnimationFrame(step);
+}

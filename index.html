@@ -1,15 +1,16 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="th">
 <head>
+    <!-- Metadata และการตั้งค่าพื้นฐาน -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartFresh Label AI - ระบบวิเคราะห์การเปลี่ยนสีฉลาก 4 สูตรทดลอง</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SmartFresh Label AI — วิเคราะห์การเปลี่ยนสีฉลาก 4 มิติ</title>
     <link rel="stylesheet" href="style.css">
     
+    <!-- สัดส่วนฟอนต์และ External Libraries -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800&family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -17,184 +18,250 @@
 </head>
 <body>
 
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <div class="glow-orb orb-3"></div>
+    <!-- สัดส่วนเอฟเฟกต์ตกแต่งพื้นหลัง -->
+    <div class="cyber-scanline"></div>
+    <div class="cyber-grid-floor"></div>
 
-    <!-- ส่วนหัวเว็บไซต์ -->
-    <header data-aos="fade-down" data-aos-duration="1000">
+    <div class="interactive-bg">
+        <div class="mesh-dynamic"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <div class="bg-particles">
+        <span class="particle p1">🥬</span>
+        <span class="particle p2">✨</span>
+        <span class="particle p3">🧬</span>
+        <span class="particle p4">🧪</span>
+        <span class="particle p5">💜</span>
+        <span class="particle p6">⚗️</span>
+        <span class="particle p7">⚡</span>
+        <span class="particle p8">🔬</span>
+    </div>
+
+    <!-- สัดส่วนส่วนหัว Header สไตล์คริสตัลพาสเทล -->
+    <header data-aos="zoom-out-down" data-aos-duration="1200">
         <div class="container header-content">
-            <div class="badge-tech animate-pulse-badge">
-                <span class="cabbage-icon-spin">🥬</span> 4-Formula Colorimetric AI Analysis
+            <div class="badge-tech neon-border-pulse">
+                <span class="cabbage-spin">🥬</span>
+                <span class="badge-text">NEO-ANTHOCYANIN AI PLATFORM 2026</span>
+                <span class="live-dot"></span>
             </div>
-            <h1 class="main-title">SmartFresh Label: ระบบ AI วิเคราะห์การเปลี่ยนสีฉลาก 4 สูตร</h1>
-            <p class="sub-title">เปรียบเทียบภาพถ่ายฉลากก่อน–หลังทดลอง เพื่อประเมินระดับการเปลี่ยนแปลง (น้อย / ปานกลาง / มาก)</p>
+            
+            <h1 class="main-title text-shimmer">SmartFresh Label</h1>
+            
+            <div class="hero-glow-card">
+                <p class="hero-desc-elegant">
+                    <span class="sparkle-icon">✨</span>
+                    ระบบปัญญาประดิษฐ์สกัดสีระดับพิกเซลจากสารสกัดกะหล่ำปลีม่วงธรรมชาติ
+                    <br class="desktop-break">
+                    วิเคราะห์เวกเตอร์ความต่างของสี (<span class="highlight-math">ΔColor</span>) สู่มาตรฐานความสดของอาหารอัจฉริยะ
+                    <span class="sparkle-icon">✨</span>
+                </p>
+            </div>
         </div>
     </header>
 
+    <!-- สัดส่วนเนื้อหาหลัก Main -->
     <main class="container">
         
-        <!-- แถบสลับโหมดการทำงาน -->
-        <div class="mode-tabs" data-aos="fade-up">
-            <button id="tabTrainBtn" class="tab-btn active">
-                📚 ขั้นที่ 1: บันทึกภาพ 4 สูตร ฝึกระบบ AI (Before-After Training)
-            </button>
-            <button id="tabTestBtn" class="tab-btn">
-                🧪 ขั้นที่ 2: ทดสอบภาพใหม่ & ประเมินความถูกต้อง (Testing & Validation)
-            </button>
+        <!-- สัดส่วนแท็บสลับโหมดการทำงาน -->
+        <div class="mode-tabs-wrapper" data-aos="fade-up" data-aos-delay="100">
+            <div class="mode-tabs">
+                <button id="tabTrainBtn" class="tab-btn active">
+                    <span class="btn-icon">⚡</span>
+                    <span class="btn-text">เฟส 1: บันทึกภาพคู่ 4 สูตรฝึก AI</span>
+                    <div class="btn-glow-line"></div>
+                </button>
+                <button id="tabTestBtn" class="tab-btn">
+                    <span class="btn-icon">🔬</span>
+                    <span class="btn-text">เฟส 2: ทดสอบภาพใหม่ & วัดค่าแม่นยำ</span>
+                    <div class="btn-glow-line"></div>
+                </button>
+            </div>
         </div>
 
-        <!-- หน้าที่ 1: ฝึกระบบ AI ด้วยภาพก่อน-หลังของแต่ละสูตร -->
-        <section id="trainSection" class="card glass-card hover-glow" data-aos="fade-up" data-aos-duration="900">
+        <!-- สัดส่วนการฝึกระบบ AI (Phase 1) -->
+        <section id="trainSection" class="glass-card cyber-card tilt-card" data-aos="fade-up" data-aos-duration="800">
+            <div class="card-glow-edge"></div>
+            
             <div class="card-title-row">
-                <div class="icon-badge">🧪</div>
+                <div class="icon-badge icon-float">🧪</div>
                 <div>
-                    <h3>1. นำเข้าภาพถ่ายฉลากก่อนและหลังทดลอง (4 สูตรการทดลอง)</h3>
-                    <p class="card-desc">สกัดค่าสีเพื่อคำนวณผลต่างการเปลี่ยนสี (ΔColor) และกำหนดระดับการเปลี่ยนแปลงเข้าสู่ฐานข้อมูล</p>
+                    <h3>1. นำเข้าภาพถ่ายฉลากก่อน–หลังทดลอง (Dataset Pipeline)</h3>
+                    <p class="card-desc">สกัดโครงสร้างสี คำนวณความต่างเวกเตอร์สี (ΔColor) และสอนโครงข่ายจำแนก</p>
                 </div>
             </div>
 
             <div class="control-panel-grid">
-                <div class="input-group">
-                    <label>สูตรการทดลองที่ใช้:</label>
-                    <select id="trainFormula" class="interactive-input">
-                        <option value="formula1">สูตร 1: น้ำกะหล่ำปลีม่วงล้วน (สารสกัดตั้งต้น)</option>
-                        <option value="formula2">สูตร 2: น้ำสะอาด + น้ำกะหล่ำปลีม่วง (เจือจาง)</option>
-                        <option value="formula3">สูตร 3: เบกกิ้งโซดา + น้ำกะหล่ำปลีม่วง (สภาวะด่าง)</option>
-                        <option value="formula4">สูตร 4: น้ำส้มสายชู + น้ำกะหล่ำปลีม่วง (สภาวะกรด)</option>
-                    </select>
+                <div class="input-card-group">
+                    <label><span class="accent-bullet">◈</span> เลือกสูตรการทดลอง:</label>
+                    <div class="select-glow-wrapper">
+                        <select id="trainFormula" class="cyber-select">
+                            <option value="formula1">สูตร 1: กะหล่ำปลีม่วงล้วน (สารสกัดตั้งต้น)</option>
+                            <option value="formula2">สูตร 2: น้ำสะอาด + น้ำกะหล่ำปลีม่วง (ควบคุม)</option>
+                            <option value="formula3">สูตร 3: เบกกิ้งโซดา + น้ำกะหล่ำปลีม่วง (ด่าง)</option>
+                            <option value="formula4">สูตร 4: น้ำส้มสายชู + น้ำกะหล่ำปลีม่วง (กรด)</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label>ระดับการเปลี่ยนสีที่กำหนดจริง (Ground Truth):</label>
-                    <select id="trainGroundTruth" class="interactive-input">
-                        <option value="low">ระดับ 1: เปลี่ยนน้อย (สีใกล้เคียงเดิม)</option>
-                        <option value="medium">ระดับ 2: เปลี่ยนปานกลาง (เริ่มเปลี่ยนเฉด)</option>
-                        <option value="high">ระดับ 3: เปลี่ยนมาก (เปลี่ยนสีชัดเจน)</option>
-                    </select>
+                <div class="input-card-group">
+                    <label><span class="accent-bullet">◈</span> กำหนดระดับการเปลี่ยนสีจริง (Ground Truth):</label>
+                    <div class="select-glow-wrapper">
+                        <select id="trainGroundTruth" class="cyber-select">
+                            <option value="low">ระดับ 1: เปลี่ยนน้อย (Low Shift - คงสีม่วง)</option>
+                            <option value="medium">ระดับ 2: เปลี่ยนปานกลาง (Medium Shift - สีน้ำเงิน/ฟ้า)</option>
+                            <option value="high">ระดับ 3: เปลี่ยนมาก (High Shift - เขียว หรือ ชมพูเข้ม)</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <!-- กล่องอัปโหลดภาพคู่: ก่อน vs หลัง -->
-            <div class="upload-pair-container">
-                <div class="pair-upload-box">
-                    <span class="upload-box-title">📷 ภาพฉลาก "ก่อนทดลอง" (Before)</span>
-                    <label class="btn-upload btn-shimmer">
-                        <span>เลือกรูปก่อนทดลอง (หลายรูปได้)</span>
+            <!-- สัดส่วนอัปโหลดคู่ภาพ -->
+            <div class="upload-dual-grid">
+                <div class="upload-dropzone dropzone-before">
+                    <div class="zone-scanner"></div>
+                    <span class="dropzone-header">
+                        <span class="zone-tag">BEFORE</span> ภาพฉลาก "ก่อนทดลอง"
+                    </span>
+                    <label class="btn-cyber-upload">
+                        <span class="upload-icon">📷</span>
+                        <span>เลือกรูปก่อนทดลอง (หลายรูป)</span>
                         <input type="file" id="trainBeforeInput" accept="image/*" multiple>
                     </label>
-                    <div id="beforePreviewGrid" class="pair-thumb-grid"></div>
+                    <div id="beforePreviewGrid" class="cyber-thumb-grid"></div>
                 </div>
 
-                <div class="pair-upload-box">
-                    <span class="upload-box-title">📸 ภาพฉลาก "หลังทดลอง" (After)</span>
-                    <label class="btn-upload btn-shimmer">
-                        <span>เลือกรูปหลังทดลอง (หลายรูปได้)</span>
+                <div class="upload-dropzone dropzone-after">
+                    <div class="zone-scanner"></div>
+                    <span class="dropzone-header">
+                        <span class="zone-tag tag-after">AFTER</span> ภาพฉลาก "หลังทดลอง"
+                    </span>
+                    <label class="btn-cyber-upload">
+                        <span class="upload-icon">📸</span>
+                        <span>เลือกรูปหลังทดลอง (หลายรูป)</span>
                         <input type="file" id="trainAfterInput" accept="image/*" multiple>
                     </label>
-                    <div id="afterPreviewGrid" class="pair-thumb-grid"></div>
+                    <div id="afterPreviewGrid" class="cyber-thumb-grid"></div>
                 </div>
             </div>
 
-            <div class="action-btn-row">
-                <button id="startTrainPairBtn" class="btn-main" disabled>
-                    <span>⚡ ประมวลผลผลต่างสี (ΔColor) และฝึกระบบ AI</span>
-                </button>
-            </div>
+            <button id="startTrainPairBtn" class="btn-epic-cta" disabled>
+                <div class="btn-cta-bg"></div>
+                <span class="btn-cta-text">⚡ สกัดเวกเตอร์ผลต่างสี (ΔColor) และฝึก AI</span>
+            </button>
 
-            <!-- สรุปสถิติฐานข้อมูลที่ฝึกไปแล้ว -->
-            <div class="dataset-stats-grid">
-                <div class="stat-card">
-                    <span class="stat-title">ข้อมูล: เปลี่ยนน้อย (Low)</span>
-                    <span id="countLow" class="stat-num text-purple">0 คู่ภาพ</span>
+            <!-- สัดส่วนสถิติชุดข้อมูล -->
+            <div class="stats-hologram-grid">
+                <div class="holo-stat-card holo-purple">
+                    <span class="holo-label">เปลี่ยนน้อย (Low)</span>
+                    <span id="countLow" class="holo-value">0 คู่</span>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-title">ข้อมูล: เปลี่ยนปานกลาง (Med)</span>
-                    <span id="countMedium" class="stat-num text-blue">0 คู่ภาพ</span>
+                <div class="holo-stat-card holo-blue">
+                    <span class="holo-label">เปลี่ยนปานกลาง (Med)</span>
+                    <span id="countMedium" class="holo-value">0 คู่</span>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-title">ข้อมูล: เปลี่ยนมาก (High)</span>
-                    <span id="countHigh" class="stat-num text-green">0 คู่ภาพ</span>
+                <div class="holo-stat-card holo-green">
+                    <span class="holo-label">เปลี่ยนมาก (High)</span>
+                    <span id="countHigh" class="holo-value">0 คู่</span>
                 </div>
             </div>
         </section>
 
-        <!-- หน้าที่ 2: ทดสอบภาพฉลากใหม่หลายรูปและเปรียบเทียบผล -->
-        <section id="testSection" class="card glass-card hover-glow" style="display: none;">
+        <!-- สัดส่วนการทดสอบและประเมินผล (Phase 2) -->
+        <section id="testSection" class="glass-card cyber-card tilt-card" style="display: none;">
+            <div class="card-glow-edge"></div>
+
             <div class="card-title-row">
-                <div class="icon-badge">🎯</div>
+                <div class="icon-badge icon-float">🎯</div>
                 <div>
-                    <h3>2. ทดสอบและจำแนกระดับสีของฉลากภาพใหม่ (Batch Image Testing)</h3>
-                    <p class="card-desc">ป้อนรูปฉลากใหม่ที่ไม่เคยใช้ฝึก ให้ AI ประเมินระดับการเปลี่ยนแปลงสีและตรวจเช็คความถูกต้อง</p>
+                    <h3>2. ทดสอบและประเมินความแม่นยำ (Validation Suite)</h3>
+                    <p class="card-desc">ป้อนภาพถ่ายชุดใหม่ที่ไม่เคยเห็น ให้ AI จำแนกพร้อมประเมินค่าความถูกต้อง</p>
                 </div>
             </div>
 
             <div class="control-panel-grid">
-                <div class="input-group">
-                    <label>สูตรที่ใช้กับชุดภาพทดสอบนี้:</label>
-                    <select id="testFormula" class="interactive-input">
-                        <option value="formula1">สูตร 1: น้ำกะหล่ำปลีม่วงล้วน</option>
-                        <option value="formula2">สูตร 2: น้ำสะอาด + น้ำกะหล่ำปลีม่วง</option>
-                        <option value="formula3">สูตร 3: เบกกิ้งโซดา + น้ำกะหล่ำปลีม่วง</option>
-                        <option value="formula4">สูตร 4: น้ำส้มสายชู + น้ำกะหล่ำปลีม่วง</option>
-                    </select>
+                <div class="input-card-group">
+                    <label><span class="accent-bullet">◈</span> สูตรที่ใช้ทดสอบชุดนี้:</label>
+                    <div class="select-glow-wrapper">
+                        <select id="testFormula" class="cyber-select">
+                            <option value="formula1">สูตร 1: กะหล่ำปลีม่วงล้วน</option>
+                            <option value="formula2">สูตร 2: น้ำสะอาด + น้ำกะหล่ำปลีม่วง</option>
+                            <option value="formula3">สูตร 3: เบกกิ้งโซดา + น้ำกะหล่ำปลีม่วง</option>
+                            <option value="formula4">สูตร 4: น้ำส้มสายชู + น้ำกะหล่ำปลีม่วง</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label>ระดับการเปลี่ยนสีจริงจากการทดลอง (เพื่อประเมินความแม่นยำ):</label>
-                    <select id="testActualClass" class="interactive-input">
-                        <option value="low">ระดับ 1: เปลี่ยนน้อย</option>
-                        <option value="medium">ระดับ 2: เปลี่ยนปานกลาง</option>
-                        <option value="high">ระดับ 3: เปลี่ยนมาก</option>
-                    </select>
+                <div class="input-card-group">
+                    <label><span class="accent-bullet">◈</span> ผลสังเกตจริงจากการทดลอง:</label>
+                    <div class="select-glow-wrapper">
+                        <select id="testActualClass" class="cyber-select">
+                            <option value="low">ระดับ 1: เปลี่ยนน้อย</option>
+                            <option value="medium">ระดับ 2: เปลี่ยนปานกลาง</option>
+                            <option value="high">ระดับ 3: เปลี่ยนมาก</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <div class="single-upload-wrapper">
-                <label class="btn-upload btn-shimmer">
-                    <span>📁 เลือกภาพฉลากทดสอบหลายรูป (Multiple Test Images)</span>
+            <div class="single-dropzone">
+                <label class="btn-cyber-upload dropzone-large">
+                    <span class="upload-icon-pulse">📁</span>
+                    <span class="dropzone-text-main">อัปโหลดภาพฉลากใหม่หลายรูปเพื่อทดสอบ</span>
+                    <span class="dropzone-text-sub">สกัดสี RGB/HSV ระดับพิกเซลและจำแนกอัตโนมัติ</span>
                     <input type="file" id="testImagesInput" accept="image/*" multiple>
                 </label>
             </div>
 
-            <div id="testPreviewArea" class="batch-preview-grid" style="display: none;"></div>
+            <div id="testPreviewArea" class="cyber-batch-preview" style="display: none;"></div>
 
-            <div class="action-btn-row">
-                <button id="startPredictBtn" class="btn-main" disabled>
-                    <span>🔍 ให้ AI จำแนกระดับสีและประเมินความถูกต้อง (Classify Batch)</span>
-                </button>
-            </div>
+            <button id="startPredictBtn" class="btn-epic-cta" disabled>
+                <div class="btn-cta-bg"></div>
+                <span class="btn-cta-text">🔍 สั่งการ AI จำแนกระดับสีและประเมินผลลัพธ์</span>
+            </button>
 
-            <!-- การ์ดแสดงผลสรุปความถูกต้อง -->
-            <div id="evaluationSummaryCard" class="eval-card" style="display: none;">
-                <div class="eval-header">
-                    <div>
-                        <h4>ผลการประเมินความถูกต้องของระบบ AI (Accuracy)</h4>
-                        <p class="card-desc">เปรียบเทียบผลการทำนายของโมเดลเทียบกับระดับสีที่สังเกตจากการทดลองจริง</p>
-                    </div>
-                    <div class="accuracy-badge">
-                        <span class="acc-title">ความแม่นยำ</span>
-                        <span id="accuracyPercent" class="acc-val">0%</span>
-                    </div>
+            <!-- สัดส่วน HUD แสดงผลความถูกต้อง -->
+            <div id="evaluationSummaryCard" class="hud-display" style="display: none;">
+                <div class="hud-top-bar">
+                    <span class="hud-status-indicator">● LIVE AI VALIDATION PROTOCOL</span>
+                    <span class="hud-model-tag">COLORIMETRIC K-NN V2</span>
                 </div>
 
-                <div class="eval-stats-row">
-                    <div class="mini-metric">
-                        <span>จำนวนภาพทดสอบทั้งหมด:</span>
-                        <strong id="totalTested">0 ภาพ</strong>
+                <div class="hud-body">
+                    <div class="hud-score-center">
+                        <div class="accuracy-circle">
+                            <svg viewBox="0 0 36 36" class="circular-chart">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path id="accuracyCircleProgress" class="circle-progress" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            </svg>
+                            <div class="accuracy-number">
+                                <span id="accuracyPercent">0%</span>
+                                <small>ACCURACY</small>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mini-metric">
-                        <span>ทำนายถูกต้อง:</span>
-                        <strong id="correctPredicted" class="text-green">0 ภาพ</strong>
-                    </div>
-                    <div class="mini-metric">
-                        <span>ทำนายคลาดเคลื่อน:</span>
-                        <strong id="incorrectPredicted" class="text-red">0 ภาพ</strong>
+
+                    <div class="hud-metrics-list">
+                        <div class="hud-metric-row">
+                            <span class="metric-label">จำนวนภาพทดสอบทั้งหมด</span>
+                            <span id="totalTested" class="metric-val">0 ภาพ</span>
+                        </div>
+                        <div class="hud-metric-row">
+                            <span class="metric-label">ทำนายถูกต้อง (Match)</span>
+                            <span id="correctPredicted" class="metric-val text-green">0 ภาพ</span>
+                        </div>
+                        <div class="hud-metric-row">
+                            <span class="metric-label">คลาดเคลื่อน (Mismatch)</span>
+                            <span id="incorrectPredicted" class="metric-val text-red">0 ภาพ</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ตารางแสดงรายละเอียดการจำแนกรายภาพ -->
-            <div id="testTableWrapper" class="table-responsive-wrapper" style="display: none; margin-top: 20px;">
-                <table class="data-record-table">
+            <!-- สัดส่วนตารางแสดงผลลัพธ์การจำแนก -->
+            <div id="testTableWrapper" class="cyber-table-card" style="display: none;">
+                <table class="cyber-table">
                     <thead>
                         <tr>
                             <th>ลำดับ</th>
@@ -202,9 +269,9 @@
                             <th>สูตรทดสอบ</th>
                             <th>สีเฉลี่ย (RGB)</th>
                             <th>ค่า Hue</th>
-                            <th>ผลจริงจากการทดลอง</th>
+                            <th>ระดับจริง</th>
                             <th>AI จำแนกได้</th>
-                            <th>การประเมิน</th>
+                            <th>ผลลัพธ์</th>
                         </tr>
                     </thead>
                     <tbody id="testResultsTableBody"></tbody>
@@ -214,10 +281,12 @@
 
     </main>
 
+    <!-- สัดส่วนประมวลผลรูปภาพเบื้องหลัง Canvas -->
     <canvas id="hiddenCanvas" style="display: none;"></canvas>
 
+    <!-- สัดส่วนส่วนท้าย Footer -->
     <footer>
-        <p>&copy; 2026 SmartFresh Label: การพัฒนาฉลากบรรจุภัณฑ์อัจฉริยะจากสารสกัดกะหล่ำปลีม่วงร่วมกับ AI</p>
+        <p>&copy; 2026 SmartFresh Label: การพัฒนาฉลากบรรจุภัณฑ์อัจฉริยะจากสารสีธรรมชาติร่วมกับระบบ AI</p>
     </footer>
 
     <script src="script.js"></script>
