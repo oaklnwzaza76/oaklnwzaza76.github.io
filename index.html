@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <!-- Metadata และการตั้งค่าพื้นฐาน -->
+    <!-- สัดส่วน Metadata และการแสดงผลบนอุปกรณ์พกพา -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>SmartFresh Label AI — วิเคราะห์การเปลี่ยนสีฉลาก 4 มิติ</title>
     <link rel="stylesheet" href="style.css">
     
-    <!-- สัดส่วนฟอนต์และ External Libraries -->
+    <!-- สัดส่วนแบบอักษรและไลบรารีภายนอก -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800&family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700;800&family=Prompt:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -18,16 +18,9 @@
 </head>
 <body>
 
-    <!-- สัดส่วนเอฟเฟกต์ตกแต่งพื้นหลัง -->
+    <!-- สัดส่วนเอฟเฟกต์ตกแต่งพื้นหลังคมชัด ไร้เบลอ -->
     <div class="cyber-scanline"></div>
     <div class="cyber-grid-floor"></div>
-
-    <div class="interactive-bg">
-        <div class="mesh-dynamic"></div>
-        <div class="glow-orb orb-1"></div>
-        <div class="glow-orb orb-2"></div>
-        <div class="glow-orb orb-3"></div>
-    </div>
 
     <div class="bg-particles">
         <span class="particle p1">🥬</span>
@@ -40,8 +33,8 @@
         <span class="particle p8">🔬</span>
     </div>
 
-    <!-- สัดส่วนส่วนหัว Header สไตล์คริสตัลพาสเทล -->
-    <header data-aos="zoom-out-down" data-aos-duration="1200">
+    <!-- สัดส่วนส่วนหัว Header -->
+    <header data-aos="zoom-out-down" data-aos-duration="1000">
         <div class="container header-content">
             <div class="badge-tech neon-border-pulse">
                 <span class="cabbage-spin">🥬</span>
@@ -70,11 +63,13 @@
         <div class="mode-tabs-wrapper" data-aos="fade-up" data-aos-delay="100">
             <div class="mode-tabs">
                 <button id="tabTrainBtn" class="tab-btn active">
+                    <span class="tab-chip">PHASE 01</span>
                     <span class="btn-icon">⚡</span>
                     <span class="btn-text">เฟส 1: บันทึกภาพคู่ 4 สูตรฝึก AI</span>
                     <div class="btn-glow-line"></div>
                 </button>
                 <button id="tabTestBtn" class="tab-btn">
+                    <span class="tab-chip">PHASE 02</span>
                     <span class="btn-icon">🔬</span>
                     <span class="btn-text">เฟส 2: ทดสอบภาพใหม่ & วัดค่าแม่นยำ</span>
                     <div class="btn-glow-line"></div>
@@ -83,7 +78,11 @@
         </div>
 
         <!-- สัดส่วนการฝึกระบบ AI (Phase 1) -->
-        <section id="trainSection" class="glass-card cyber-card tilt-card" data-aos="fade-up" data-aos-duration="800">
+        <section id="trainSection" class="glass-card cyber-card" data-aos="fade-up" data-aos-duration="800">
+            <div class="cyber-corner corner-tl"></div>
+            <div class="cyber-corner corner-tr"></div>
+            <div class="cyber-corner corner-bl"></div>
+            <div class="cyber-corner corner-br"></div>
             <div class="card-glow-edge"></div>
             
             <div class="card-title-row">
@@ -147,9 +146,13 @@
                 </div>
             </div>
 
-            <button id="startTrainPairBtn" class="btn-epic-cta" disabled>
+            <button id="startTrainPairBtn" class="btn-epic-cta standby-mode">
                 <div class="btn-cta-bg"></div>
-                <span class="btn-cta-text">⚡ สกัดเวกเตอร์ผลต่างสี (ΔColor) และฝึก AI</span>
+                <div class="btn-scanner-light"></div>
+                <span class="btn-cta-text">
+                    <span class="btn-status-icon">◈</span>
+                    <span class="btn-label-text">รอข้อมูลคู่ภาพก่อน-หลัง เพื่อเริ่มฝึกระบบ AI</span>
+                </span>
             </button>
 
             <!-- สัดส่วนสถิติชุดข้อมูล -->
@@ -170,7 +173,11 @@
         </section>
 
         <!-- สัดส่วนการทดสอบและประเมินผล (Phase 2) -->
-        <section id="testSection" class="glass-card cyber-card tilt-card" style="display: none;">
+        <section id="testSection" class="glass-card cyber-card" style="display: none;">
+            <div class="cyber-corner corner-tl"></div>
+            <div class="cyber-corner corner-tr"></div>
+            <div class="cyber-corner corner-bl"></div>
+            <div class="cyber-corner corner-br"></div>
             <div class="card-glow-edge"></div>
 
             <div class="card-title-row">
@@ -207,6 +214,7 @@
 
             <div class="single-dropzone">
                 <label class="btn-cyber-upload dropzone-large">
+                    <div class="zone-scanner"></div>
                     <span class="upload-icon-pulse">📁</span>
                     <span class="dropzone-text-main">อัปโหลดภาพฉลากใหม่หลายรูปเพื่อทดสอบ</span>
                     <span class="dropzone-text-sub">สกัดสี RGB/HSV ระดับพิกเซลและจำแนกอัตโนมัติ</span>
@@ -216,9 +224,13 @@
 
             <div id="testPreviewArea" class="cyber-batch-preview" style="display: none;"></div>
 
-            <button id="startPredictBtn" class="btn-epic-cta" disabled>
+            <button id="startPredictBtn" class="btn-epic-cta standby-mode">
                 <div class="btn-cta-bg"></div>
-                <span class="btn-cta-text">🔍 สั่งการ AI จำแนกระดับสีและประเมินผลลัพธ์</span>
+                <div class="btn-scanner-light"></div>
+                <span class="btn-cta-text">
+                    <span class="btn-status-icon">◈</span>
+                    <span class="btn-label-text">กรุณาเลือกไฟล์ภาพฉลาก เพื่อเปิดระบบ AI จำแนก</span>
+                </span>
             </button>
 
             <!-- สัดส่วน HUD แสดงผลความถูกต้อง -->

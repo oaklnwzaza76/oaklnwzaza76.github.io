@@ -1,42 +1,11 @@
+// script.js
+
 // สัดส่วนเริ่มต้นการทำงานของเอฟเฟกต์ภาพและแอนิเมชัน
 document.addEventListener("DOMContentLoaded", function() {
     if (typeof AOS !== 'undefined') {
         AOS.init({ once: true, duration: 800 });
     }
-    initInteractiveBg();
-    init3DTilt();
 });
-
-// สัดส่วนการทำงานของพื้นหลังโต้ตอบกับตำแหน่งเมาส์
-function initInteractiveBg() {
-    const orb1 = document.querySelector('.orb-1');
-    const orb2 = document.querySelector('.orb-2');
-    
-    window.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 60;
-        const y = (e.clientY / window.innerHeight - 0.5) * 60;
-        if (orb1) orb1.style.transform = `translate(${x}px, ${y}px)`;
-        if (orb2) orb2.style.transform = `translate(${-x}px, ${-y}px)`;
-    });
-}
-
-// สัดส่วนการทำงานของการ์ดแบบ 3D Tilt
-function init3DTilt() {
-    const cards = document.querySelectorAll('.tilt-card');
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            const tiltX = (y / (rect.height / 2)) * -3.5;
-            const tiltY = (x / (rect.width / 2)) * 3.5;
-            card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-3px)`;
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
-        });
-    });
-}
 
 // สัดส่วนการควบคุมแท็บสลับหน้าจอ
 const tabTrainBtn = document.getElementById('tabTrainBtn');
@@ -165,12 +134,16 @@ trainAfterInput.addEventListener('change', function(e) {
 });
 
 function checkTrainReady() {
+    const btnText = startTrainPairBtn.querySelector('.btn-label-text');
     if (tempBeforeFiles.length > 0 && tempAfterFiles.length > 0) {
-        startTrainPairBtn.disabled = false;
+        startTrainPairBtn.classList.remove('standby-mode');
+        startTrainPairBtn.classList.add('active-ready');
         const pairCount = Math.min(tempBeforeFiles.length, tempAfterFiles.length);
-        startTrainPairBtn.querySelector('.btn-cta-text').textContent = `⚡ สกัดผลต่างสี (ΔColor) และฝึก AI (${pairCount} คู่ภาพ)`;
+        btnText.textContent = `⚡ สกัดผลต่างสี (ΔColor) และฝึก AI (${pairCount} คู่ภาพ)`;
     } else {
-        startTrainPairBtn.disabled = true;
+        startTrainPairBtn.classList.add('standby-mode');
+        startTrainPairBtn.classList.remove('active-ready');
+        btnText.textContent = 'รอข้อมูลคู่ภาพก่อน-หลัง เพื่อเริ่มฝึกระบบ AI';
     }
 }
 
@@ -204,12 +177,14 @@ function loadImageAsync(file) {
 }
 
 startTrainPairBtn.addEventListener('click', async function() {
-    startTrainPairBtn.disabled = true;
-    startTrainPairBtn.querySelector('.btn-cta-text').textContent = '⏳ กำลังคำนวณเวกเตอร์พิกเซลและฝึก AI...';
+    const pairCount = Math.min(tempBeforeFiles.length, tempAfterFiles.length);
+    if (pairCount === 0) return;
+
+    const btnText = startTrainPairBtn.querySelector('.btn-label-text');
+    btnText.textContent = '⏳ กำลังคำนวณเวกเตอร์พิกเซลและฝึก AI...';
 
     const formula = trainFormula.value;
     const label = trainGroundTruth.value;
-    const pairCount = Math.min(tempBeforeFiles.length, tempAfterFiles.length);
 
     for (let i = 0; i < pairCount; i++) {
         const beforeData = await loadImageAsync(tempBeforeFiles[i]);
@@ -238,19 +213,19 @@ startTrainPairBtn.addEventListener('click', async function() {
     tempBeforeFiles = [];
     tempAfterFiles = [];
 
-    startTrainPairBtn.querySelector('.btn-cta-text').textContent = '✅ บันทึกคู่ภาพเข้าสู่โครงข่ายสำเร็จ!';
+    btnText.textContent = '✅ บันทึกคู่ภาพเข้าสู่โครงข่ายสำเร็จ!';
     if (typeof confetti === 'function') {
         confetti({
-            particleCount: 85,
-            spread: 80,
+            particleCount: 80,
+            spread: 70,
             origin: { y: 0.7 },
-            colors: ['#d500f9', '#00e5ff', '#00e676']
+            colors: ['#e040fb', '#00e5ff', '#00e676']
         });
     }
 
     setTimeout(() => {
-        startTrainPairBtn.querySelector('.btn-cta-text').textContent = '⚡ สกัดเวกเตอร์ผลต่างสี (ΔColor) และฝึก AI';
-    }, 2200);
+        checkTrainReady();
+    }, 2000);
 });
 
 function updateStatsDisplay() {
@@ -315,17 +290,25 @@ const testResultsTableBody = document.getElementById('testResultsTableBody');
 
 testImagesInput.addEventListener('change', function(e) {
     tempTestFiles = Array.from(e.target.files);
+    const btnText = startPredictBtn.querySelector('.btn-label-text');
     if (tempTestFiles.length > 0) {
         testPreviewArea.style.display = 'grid';
         renderThumbnails(tempTestFiles, testPreviewArea);
-        startPredictBtn.disabled = false;
-        startPredictBtn.querySelector('.btn-cta-text').textContent = `🔍 ให้ AI จำแนกภาพชุดนี้ (${tempTestFiles.length} ภาพ)`;
+        startPredictBtn.classList.remove('standby-mode');
+        startPredictBtn.classList.add('active-ready');
+        btnText.textContent = `🔍 สั่งการ AI จำแนกภาพชุดนี้ (${tempTestFiles.length} ภาพ)`;
+    } else {
+        startPredictBtn.classList.add('standby-mode');
+        startPredictBtn.classList.remove('active-ready');
+        btnText.textContent = 'กรุณาเลือกไฟล์ภาพฉลาก เพื่อเปิดระบบ AI จำแนก';
     }
 });
 
 startPredictBtn.addEventListener('click', async function() {
-    startPredictBtn.disabled = true;
-    startPredictBtn.querySelector('.btn-cta-text').textContent = '⏳ AI กำลังสแกนโครงสร้างสีและจำแนกข้อมูล...';
+    if (tempTestFiles.length === 0) return;
+
+    const btnText = startPredictBtn.querySelector('.btn-label-text');
+    btnText.textContent = '⏳ AI กำลังสแกนโครงสร้างสีและจำแนกข้อมูล...';
 
     const formula = testFormula.value;
     const actual = testActualClass.value;
@@ -356,7 +339,7 @@ startPredictBtn.addEventListener('click', async function() {
             <td data-label="รูปฉลาก"><img src="${res.src}" class="result-thumb" alt="test"></td>
             <td data-label="สูตรทดสอบ">${res.formula}</td>
             <td data-label="ค่าสี RGB">
-                <span class="table-color-dot" style="background: rgb(${res.color.r}, ${res.color.g}, ${res.color.b}); color: rgb(${res.color.r}, ${res.color.g}, ${res.color.b});"></span>
+                <span class="table-color-dot" style="background: rgb(${res.color.r}, ${res.color.g}, ${res.color.b});"></span>
                 <strong>${res.color.r}, ${res.color.g}, ${res.color.b}</strong>
             </td>
             <td data-label="ค่า Hue"><strong>${res.color.h}°</strong></td>
@@ -376,7 +359,6 @@ startPredictBtn.addEventListener('click', async function() {
     const incorrect = total - correct;
     const acc = Math.round((correct / total) * 100);
 
-    // อนิเมชันตัวเลข Accuracy
     animateCounter(accuracyPercent, 0, acc, 1200);
     accuracyCircleProgress.setAttribute('stroke-dasharray', `${acc}, 100`);
 
@@ -389,15 +371,14 @@ startPredictBtn.addEventListener('click', async function() {
 
     if (acc >= 70 && typeof confetti === 'function') {
         confetti({
-            particleCount: 120,
-            spread: 90,
+            particleCount: 100,
+            spread: 80,
             origin: { y: 0.6 },
-            colors: ['#00e5ff', '#d500f9', '#00e676', '#ffffff']
+            colors: ['#00e5ff', '#e040fb', '#00e676', '#ffffff']
         });
     }
 
-    startPredictBtn.disabled = false;
-    startPredictBtn.querySelector('.btn-cta-text').textContent = '🔍 สั่งการ AI จำแนกระดับสีและประเมินผลลัพธ์';
+    btnText.textContent = '🔍 สั่งการ AI จำแนกระดับสีและประเมินผลลัพธ์อีกครั้ง';
     evaluationSummaryCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
