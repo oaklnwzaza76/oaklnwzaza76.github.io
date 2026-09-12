@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartFresh Label - AI ระบบตรวจวัดสภาวะกรด-ด่างจากฉลากกะหล่ำปลีม่วง</title>
+    <title>SmartFresh Label AI - ระบบเรียนรู้และจำแนกระดับสีฉลากแบบชุดข้อมูล</title>
     <link rel="stylesheet" href="style.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,188 +17,177 @@
 </head>
 <body>
 
-    <!-- พื้นหลังอนุภาคและแสงนีออนเคลื่อนไหว -->
-    <div class="bg-particles" id="particlesContainer">
-        <span class="particle p1">🥬</span>
-        <span class="particle p2">✨</span>
-        <span class="particle p3">🧪</span>
-        <span class="particle p4">💜</span>
-        <span class="particle p5">🥬</span>
-        <span class="particle p6">⚗️</span>
-        <span class="particle p7">✨</span>
-    </div>
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
     <div class="glow-orb orb-3"></div>
 
-    <!-- ส่วนหัวเว็บไซต์ -->
-    <header data-aos="fade-down" data-aos-duration="1100">
+    <header data-aos="fade-down" data-aos-duration="1000">
         <div class="container header-content">
             <div class="badge-tech animate-pulse-badge">
-                <span class="cabbage-icon-spin">🥬</span> โครงงาน SmartFresh Label 2026
+                <span class="cabbage-icon-spin">🥬</span> SmartFresh Label AI Pipeline
             </div>
-            <h1 class="main-title text-gradient">ระบบ AI วิเคราะห์สีกระดาษฉลากกะหล่ำปลีม่วง</h1>
-            <p class="sub-title">ตรวจวัดการเปลี่ยนสีของสารแอนโทไซยานินเพื่อประเมินสภาวะกรด–ด่างเบื้องต้น</p>
+            <h1 class="main-title">ระบบฝึกและทดสอบ AI วิเคราะห์ฉลากกะหล่ำปลีม่วง</h1>
+            <p class="sub-title">สร้างฐานข้อมูลตัวอย่าง (เปลี่ยนน้อย / ปานกลาง / มาก) วิเคราะห์แบบชุดภาพหลายรูป และประเมินความแม่นยำ</p>
         </div>
     </header>
 
-    <!-- คอนเทนเนอร์หลัก -->
     <main class="container">
         
-        <!-- ส่วนอัปโหลดภาพฉลาก -->
-        <section class="card glass-card hover-glow" data-aos="fade-up" data-aos-duration="900">
+        <!-- แท็บเลือกระบบ: ฝึกโมเดล vs ทดสอบโมเดล -->
+        <div class="mode-tabs" data-aos="fade-up">
+            <button id="tabTrainBtn" class="tab-btn active">
+                📚 ขั้นที่ 1: นำเข้าภาพฝึกสอน AI (Training Dataset)
+            </button>
+            <button id="tabTestBtn" class="tab-btn">
+                🧪 ขั้นที่ 2: นำเข้าภาพทดสอบ & ประเมินผล (Testing & Evaluation)
+            </button>
+        </div>
+
+        <!-- หน้าที่ 1: นำเข้าภาพหลายรูปเพื่อสร้างฐานข้อมูลฝึก AI -->
+        <section id="trainSection" class="card glass-card hover-glow" data-aos="fade-up" data-aos-duration="900">
             <div class="card-title-row">
-                <div class="icon-badge icon-pop">📸</div>
+                <div class="icon-badge">📁</div>
                 <div>
-                    <h3>1. ลงรูปกระดาษฉลากที่ผ่านการทดลอง</h3>
-                    <p class="card-desc">อัปโหลดภาพถ่ายฉลากจริง (วางบนกระดาษขาว แสงสว่างคงที่)</p>
+                    <h3>1. นำเข้าภาพถ่ายฉลากสร้างฐานข้อมูล (Batch Image Training)</h3>
+                    <p class="card-desc">เลือกภาพหลายรูปพร้อมกัน กำหนดระดับสีจริงจากการทดลอง เพื่อให้ AI สกัด RGB/HSV และจดจำรูปแบบ</p>
                 </div>
             </div>
-            
-            <div class="control-panel">
+
+            <div class="control-panel-batch">
                 <div class="input-group">
-                    <label>ระบุตัวอย่างสารที่ทดสอบ:</label>
-                    <select id="sampleType" class="interactive-input">
-                        <option value="น้ำเปล่า / ก่อนทดลอง">ภาพที่ 1: ฉลากก่อนทดลอง (กระดาษสีม่วงเดิม / น้ำเปล่า)</option>
-                        <option value="น้ำมะนาว">ภาพที่ 2: ฉลากจุ่มน้ำมะนาว (สภาวะกรด)</option>
-                        <option value="สบู่เจือจาง">ภาพที่ 3: ฉลากจุ่มสบู่เจือจาง (สภาวะด่าง)</option>
-                        <option value="น้ำประปา / น้ำตัวอย่าง">ภาพที่ 4: ฉลากจุ่มน้ำประปา / น้ำตัวอย่างอื่น ๆ</option>
+                    <label>ระดับการเปลี่ยนแปลงสีของชุดภาพนี้ (Ground Truth Label):</label>
+                    <select id="trainClassLabel" class="interactive-input">
+                        <option value="low">ระดับ 1: เปลี่ยนน้อย (สีม่วงเดิม / ใกล้เคียงเริ่มต้น)</option>
+                        <option value="medium">ระดับ 2: เปลี่ยนปานกลาง (เริ่มเปลี่ยนเป็นน้ำเงิน / ฟ้า)</option>
+                        <option value="high">ระดับ 3: เปลี่ยนมาก (เปลี่ยนเป็นเขียว / เขียวอมเหลือง หรือชมพูเข้ม)</option>
                     </select>
                 </div>
-                <div class="input-group full-width-mobile">
-                    <label>เลือกไฟล์ภาพถ่าย:</label>
+                <div class="input-group">
+                    <label>เลือกภาพถ่ายฉลาก (เลือกได้ครั้งละหลายรูป):</label>
                     <label class="btn-upload btn-shimmer">
-                        <span class="upload-icon-bounce">📁</span> ถ่ายภาพ / เลือกรูปกระดาษฉลาก
-                        <input type="file" id="imageInput" accept="image/*">
+                        <span>📸 เลือกรูปหลายภาพ (Multiple Images)</span>
+                        <input type="file" id="trainImagesInput" accept="image/*" multiple>
                     </label>
                 </div>
             </div>
 
-            <!-- กล่องปรับแต่งกรอบตรวจจับ (ROI) -->
-            <div id="roiControls" class="roi-controls-panel" style="display: none;">
-                <div class="roi-hint">
-                    💡 <strong>คำแนะนำ:</strong> ลากกรอบสแกนสีม่วงนีออนไปวางบนเนื้อกระดาษฉลากเพื่อตัดพื้นหลัง
-                </div>
-                <div class="roi-slider-group">
-                    <label for="roiSizeSlider">ขนาดกรอบสแกน: <span id="roiSizeVal">80</span>px</label>
-                    <div class="range-wrapper">
-                        <input type="range" id="roiSizeSlider" min="30" max="250" value="80">
-                    </div>
-                </div>
+            <!-- กล่องพรีวิวก่อนกดเรียนรู้ -->
+            <div id="trainPreviewArea" class="batch-preview-grid" style="display: none;"></div>
+
+            <div class="action-btn-row">
+                <button id="startTrainBtn" class="btn-main" disabled>
+                    <span>⚡ ประมวลผลสกัดสีและฝึกระบบ AI (Train Dataset)</span>
+                </button>
             </div>
 
-            <!-- พื้นที่แสดงภาพและเป้าสแกน -->
-            <div class="preview-container">
-                <div class="image-box" id="imageBox">
-                    <div class="empty-state" id="emptyStateText">
-                        <div class="cabbage-radar-pulse">
-                            <span class="radar-center-icon">🥬</span>
-                        </div>
-                        <p>ยังไม่มีรูปภาพ กรุณาถ่ายภาพหรือเลือกรูปกระดาษฉลาก</p>
-                    </div>
-                    <img id="previewImage" alt="ตัวอย่างฉลากจะแสดงที่นี่">
-                    <div id="roiBox" class="roi-overlay">
-                        <div class="laser-scanner"></div>
-                        <span class="roi-tag">เป้าวิเคราะห์ AI</span>
-                    </div>
+            <!-- ข้อมูลสรุปฐานข้อมูลที่ถูกฝึกแล้ว -->
+            <div class="dataset-stats-grid">
+                <div class="stat-card">
+                    <span class="stat-title">ฐานข้อมูล: เปลี่ยนน้อย</span>
+                    <span id="countLow" class="stat-num text-purple">0 ภาพ</span>
                 </div>
-                <canvas id="processCanvas" style="display: none;"></canvas>
-            </div>
-
-            <button id="analyzeBtn" class="btn-main btn-glow-anim" disabled>
-                <span class="btn-text-content">🔍 วิเคราะห์สีและประเมินสภาวะ (Analyze)</span>
-            </button>
-        </section>
-
-        <!-- ส่วนแสดงผลการวิเคราะห์ AI -->
-        <section id="resultSection" class="card glass-card result-enter" style="display: none;">
-            <div class="result-header-row">
-                <div class="card-title-row" style="margin-bottom: 0;">
-                    <div class="icon-badge icon-pop">✨</div>
-                    <div>
-                        <h3>ผลการวิเคราะห์ AI</h3>
-                        <p class="card-desc">สกัดสีและจำแนกประเภทสภาวะจากกระดาษฉลาก</p>
-                    </div>
+                <div class="stat-card">
+                    <span class="stat-title">ฐานข้อมูล: เปลี่ยนปานกลาง</span>
+                    <span id="countMedium" class="stat-num text-blue">0 ภาพ</span>
                 </div>
-                <span class="badge-status pulse-status">● สถานะ: วิเคราะห์สำเร็จ</span>
-            </div>
-
-            <!-- กล่องการ์ดแสดงผลลัพธ์หลัก -->
-            <div class="ai-result-card glow-border-card">
-                <div class="detected-color-section">
-                    <div id="detectedColorBox" class="color-swatch-box swatch-bounce"></div>
-                    <div class="detected-color-info">
-                        <span class="info-subtitle">สีที่ตรวจพบ</span>
-                        <h2 id="colorNameText" class="info-title">ม่วงอมชมพู</h2>
-                        <span id="rgbHsvDetails" class="info-metrics">R: - | G: - | B: - | H: -°</span>
-                    </div>
+                <div class="stat-card">
+                    <span class="stat-title">ฐานข้อมูล: เปลี่ยนมาก</span>
+                    <span id="countHigh" class="stat-num text-green">0 ภาพ</span>
                 </div>
-
-                <div class="result-divider"></div>
-
-                <div class="result-fields-list">
-                    <div class="field-item">
-                        <span class="field-label">ประเภทสภาวะ</span>
-                        <span id="conditionState" class="field-badge scale-badge">-</span>
-                    </div>
-                    <div class="field-item">
-                        <span class="field-label">ค่า pH (ประเมินเบื้องต้น)</span>
-                        <span id="phEstimateText" class="field-value text-glow">-</span>
-                    </div>
-                    <div class="field-item">
-                        <span class="field-label">ความมั่นใจของระบบ</span>
-                        <span id="confidenceText" class="field-value">-</span>
-                    </div>
-                    <div class="field-item full-row">
-                        <span class="field-label">คำแนะนำ</span>
-                        <span id="adviceText" class="field-note">-</span>
-                    </div>
-                </div>
-            </div>
-
-            <p class="disclaimer-note">
-                * หมายเหตุ: เป็นการประเมินค่า pH เบื้องต้นจากสีของสารสกัดธรรมชาติ ไม่ใช่เครื่องวัดทางห้องปฏิบัติการที่มีความแม่นยำสูง
-            </p>
-
-            <!-- ปุ่มทางเลือกที่จุดสิ้นสุด -->
-            <div class="finish-action-row">
-                <button id="saveHistoryBtn" class="btn-action-primary btn-ripple">💾 บันทึกผลลงตาราง</button>
-                <button id="newTestBtn" class="btn-action-secondary btn-scale-hover">🔄 เริ่มทดลองตัวอย่างใหม่</button>
             </div>
         </section>
 
-        <!-- ส่วนตารางประวัติผลการทดลอง -->
-        <section id="historySection" class="card glass-card hover-glow" style="display: none;">
+        <!-- หน้าที่ 2: นำเข้าภาพหลายรูปเพื่อทดสอบและประเมินระบบ -->
+        <section id="testSection" class="card glass-card hover-glow" style="display: none;">
             <div class="card-title-row">
-                <div class="icon-badge icon-pop">📋</div>
+                <div class="icon-badge">🎯</div>
                 <div>
-                    <h3>ประวัติการวิเคราะห์ฉลากตัวอย่าง</h3>
-                    <p class="card-desc">ตารางรวบรวมตัวอย่างที่ผ่านการทดสอบ</p>
+                    <h3>2. ทดสอบภาพฉลากใหม่ที่ไม่เคยใช้ฝึก (Batch Testing & Validation)</h3>
+                    <p class="card-desc">ป้อนรูปภาพฉลากชุดใหม่หลายรูป ให้ระบบจำแนกระดับสี พร้อมเปรียบเทียบความถูกต้อง</p>
                 </div>
             </div>
 
-            <div class="table-responsive-wrapper">
+            <div class="control-panel-batch">
+                <div class="input-group">
+                    <label>ระดับจริงของชุดภาพทดสอบนี้ (เพื่อคำนวณความถูกต้อง):</label>
+                    <select id="testActualClass" class="interactive-input">
+                        <option value="low">ระดับ 1: เปลี่ยนน้อย</option>
+                        <option value="medium">ระดับ 2: เปลี่ยนปานกลาง</option>
+                        <option value="high">ระดับ 3: เปลี่ยนมาก</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>เลือกภาพทดสอบหลายรูป (Unseen Test Images):</label>
+                    <label class="btn-upload btn-shimmer">
+                        <span>🧪 อัปโหลดภาพทดสอบหลายรูป</span>
+                        <input type="file" id="testImagesInput" accept="image/*" multiple>
+                    </label>
+                </div>
+            </div>
+
+            <div id="testPreviewArea" class="batch-preview-grid" style="display: none;"></div>
+
+            <div class="action-btn-row">
+                <button id="startPredictBtn" class="btn-main" disabled>
+                    <span>🔍 ให้ AI จำแนกภาพทั้งหมดและเปรียบเทียบผล (Batch Classify)</span>
+                </button>
+            </div>
+
+            <!-- การแสดงผลสรุปความถูกต้องภาพรวม (Accuracy Score) -->
+            <div id="evaluationSummaryCard" class="eval-card" style="display: none;">
+                <div class="eval-header">
+                    <div>
+                        <h4>ผลการประเมินประสิทธิภาพของระบบ AI</h4>
+                        <p class="card-desc">เปรียบเทียบผลการทำนายกับระดับสีที่กำหนดจากการทดลองจริง</p>
+                    </div>
+                    <div class="accuracy-badge">
+                        <span class="acc-title">ความถูกต้อง (Accuracy)</span>
+                        <span id="accuracyPercent" class="acc-val">0%</span>
+                    </div>
+                </div>
+
+                <div class="eval-stats-row">
+                    <div class="mini-metric">
+                        <span>จำนวนภาพทดสอบทั้งหมด:</span>
+                        <strong id="totalTested">0 ภาพ</strong>
+                    </div>
+                    <div class="mini-metric">
+                        <span>ทำนายตรงกับผลจริง:</span>
+                        <strong id="correctPredicted" class="text-green">0 ภาพ</strong>
+                    </div>
+                    <div class="mini-metric">
+                        <span>ทำนายคลาดเคลื่อน:</span>
+                        <strong id="incorrectPredicted" class="text-red">0 ภาพ</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ตารางแสดงรายละเอียดการทำนายทีละภาพ -->
+            <div id="testTableWrapper" class="table-responsive-wrapper" style="display: none; margin-top: 20px;">
                 <table class="data-record-table">
                     <thead>
                         <tr>
                             <th>ลำดับ</th>
-                            <th>ตัวอย่างสาร</th>
-                            <th>เฉดสีที่ตรวจพบ</th>
-                            <th>ชื่อสี</th>
-                            <th>สภาวะ</th>
-                            <th>pH ประเมิน</th>
+                            <th>ตัวอย่างภาพ</th>
+                            <th>สีเฉลี่ย (RGB)</th>
+                            <th>Hue (องศา)</th>
+                            <th>ระดับจริง (Ground Truth)</th>
+                            <th>AI ทำนาย (Prediction)</th>
+                            <th>ผลการตรวจสอบ</th>
                         </tr>
                     </thead>
-                    <tbody id="historyTableBody"></tbody>
+                    <tbody id="testResultsTableBody"></tbody>
                 </table>
             </div>
         </section>
 
     </main>
 
-    <!-- ท้ายเว็บ -->
+    <!-- Canvas สำหรับประมวลผลดึงพิกเซลภาพเบื้องหลัง -->
+    <canvas id="hiddenCanvas" style="display: none;"></canvas>
+
     <footer>
-        <p>&copy; 2026 SmartFresh Label: การพัฒนาฉลากบรรจุภัณฑ์อัจฉริยะจากสารสีธรรมชาติร่วมกับ AI</p>
+        <p>&copy; 2026 SmartFresh Label: การพัฒนาฉลากบรรจุภัณฑ์อัจฉริยะร่วมกับ AI จำแนกระดับสี</p>
     </footer>
 
     <script src="script.js"></script>
